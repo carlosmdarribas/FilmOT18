@@ -5,49 +5,151 @@ package com.carlosmdarribasapps.usal.model;
     Guardará los datos que correspondan con las peliculas, y los métodos para utilizarlo.
  */
 
-public class Film {
+import java.io.Serializable;
+import java.util.List;
+
+public class Film implements Serializable {
     private String name;
     private int year;
     private int duration;
     private String country;
-    //private Director[] direction;
+    private List<String> direction;
     private String guion;
     private String music;
     private String photography;
+    private List<String> cast;
+    private String producer;
+    private String gender;
+    private String synopsis;
 
-
-    public Film(String name, int year, int duration, String country, String guion, String music, String photography) {
+    public Film(String name, int year, int duration, String country, List<String> direction, String guion, String music, String photography, List<String> cast, String producer, String gender, String synopsis) {
         this.name = name;
         this.year = year;
         this.duration = duration;
         this.country = country;
+        this.direction = direction;
         this.guion = guion;
         this.music = music;
         this.photography = photography;
+        this.cast = cast;
+        this.producer = producer;
+        this.gender = gender;
+        this.synopsis = synopsis;
     }
 
+    public Film() {
 
-    /*
-        Getters y Setter
-     */
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    }
 
-    public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
+    public String toHtmlString() {
+        return String.format("<TR><TD>%s</TD><TD>%.2f</TD><TD>%.2f</TD><TD>%d</TD></TR>",
+                this.name = name,
+                this.year,
+                this.duration,
+                this.country,
+                this.direction,
+                this.guion,
+                this.music,
+                this.photography,
+                this.cast,
+                this.producer,
+                this.gender,
+                this.synopsis);
+    }
 
-    public int getDuration() { return duration; }
-    public void setDuration(int duration) { this.duration = duration; }
+    public String getName() {
+        return name;
+    }
 
-    public String getCountry() { return country; }
-    public void setCountry(String country) { this.country = country; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getGuion() { return guion; }
-    public void setGuion(String guion) { this.guion = guion; }
+    public int getYear() {
+        return year;
+    }
 
-    public String getMusic() { return music; }
-    public void setMusic(String music) { this.music = music; }
+    public void setYear(int year) {
+        this.year = year;
+    }
 
-    public String getPhotography() { return photography; }
-    public void setPhotography(String photography) { this.photography = photography; }
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public List<String> getDirection() {
+        return direction;
+    }
+
+    public void setDirection(List<String> direction) {
+        this.direction = direction;
+    }
+
+    public String getGuion() {
+        return guion;
+    }
+
+    public void setGuion(String guion) {
+        this.guion = guion;
+    }
+
+    public String getMusic() {
+        return music;
+    }
+
+    public void setMusic(String music) {
+        this.music = music;
+    }
+
+    public String getPhotography() {
+        return photography;
+    }
+
+    public void setPhotography(String photography) {
+        this.photography = photography;
+    }
+
+    public List<String> getCast() {
+        return cast;
+    }
+
+    public void setCast(List<String> cast) {
+        this.cast = cast;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
 }

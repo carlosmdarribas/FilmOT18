@@ -1,9 +1,12 @@
 package com.carlosmdarribasapps.usal.model;
 
+import com.carlosmdarribasapps.usal.utils.Constants;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Director {
+public class Director implements Serializable {
     private String name;
     private Date birthdate;
     private String nationality;
@@ -16,6 +19,16 @@ public class Director {
         this.nationality = nationality;
         this.job = job;
         this.films = films;
+    }
+
+    public Director() { }
+
+    public Director(String name) {
+        this.name = name;
+    }
+
+    public String toFormatedString() {
+        return String.format(Constants.COLUMNED_DIRECTOR_FORMAT,this.name,this.birthdate,this.nationality,this.job);
     }
 
     public String getName() { return name; }
