@@ -209,7 +209,7 @@ public class View {
                 actor.getFilms().add(newFilm.getName());
             }
 
-            System.out.print("¿Desea añadir más directores? (S/n)");
+            System.out.print("¿Desea añadir más actores? (S/n)");
             String exitAsk = scanner.nextLine();
 
             if (!"sS".contains(exitAsk)) exit = true;
@@ -425,7 +425,7 @@ public class View {
 
             Director selectedDirector = directors.get(index-1);
 
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
             System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedDirector.getBirthdate()) + " (Intro para valor actual)): ");
             String change = scanner.nextLine();
@@ -713,7 +713,11 @@ public class View {
     }
 
     public void listDirectorsNac_Age() {
+        for (Director director : controller.getSortedFilmsNationalityAge()) {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
+            System.out.printf(Constants.DIRECTOR_TABLE_FORMAT+"\n", director.getName(), director.getBirthdate(), df.format(director.getBirthdate()), director.getJob());
+        }
     }
 
     public void listActorsName_Debut() {

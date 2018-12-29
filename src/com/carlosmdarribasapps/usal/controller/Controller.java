@@ -1,6 +1,7 @@
 package com.carlosmdarribasapps.usal.controller;
 
 import com.carlosmdarribasapps.usal.model.Actor;
+import com.carlosmdarribasapps.usal.model.Comparators.DirectorNacionalityYearComparator;
 import com.carlosmdarribasapps.usal.model.Comparators.FilmAlphabeticComparator;
 import com.carlosmdarribasapps.usal.model.Director;
 import com.carlosmdarribasapps.usal.model.Film;
@@ -193,12 +194,14 @@ public class Controller {
     }
 
     public Director getDirectorFromCollectionWithName(String directorName) {
+        if (this.getDirectors() == null || this.getDirectors().isEmpty()) return null;
         for (Director director : this.getDirectors()) if (director.getName().equals(directorName)) return director;
 
         return null;
     }
 
     public Actor getActorFromCollectionWithName(String actorName) {
+        if (this.getActors() == null || this.getActors().isEmpty()) return null;
         for (Actor actor : this.getActors()) if (actor.getName().equals(actorName)) return actor;
 
         return null;
@@ -262,12 +265,23 @@ public class Controller {
         return null;
     }
 
+    /*
+    ORDENACION
+     */
+
     public List<Film> getSortedFilmsAlph() {
         List<Film> sortedFilms = new ArrayList<>(this.getFilms());
 
         Collections.sort(sortedFilms, new FilmAlphabeticComparator());
 
         return sortedFilms;
+    }
+
+    public List<Director> getSortedFilmsNationalityAge() {
+        List<Director> sortedDirectors = new ArrayList<>(this.getDirectors());
+        Collections.sort(sortedDirectors, new DirectorNacionalityYearComparator());
+
+        return sortedDirectors;
     }
 
     /*
