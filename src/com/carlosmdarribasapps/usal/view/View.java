@@ -7,7 +7,11 @@ import com.carlosmdarribasapps.usal.model.Film;
 import com.carlosmdarribasapps.usal.utils.Constants;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -305,16 +309,146 @@ public class View {
     }
 
     public void newDirector() {
+        /*
+            private String name;
+            private Date birthdate;
+            private String nationality;
+            private String job;
+            private List<String> films;
+         */
+
+        System.out.println("Introduzca los datos del director: ");
+
         Director director = new Director();
+
+        // Nombre
+        System.out.print("Nombre del director: ");
+        director.setName(scanner.nextLine());
+
+        // Fecha de nacimiento
+        boolean exit = true;
+        do {
+            System.out.print("Fecha de nacimiento del director, en formato dd/MM/yyyy: ");
+
+            DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                String stringDate = scanner.nextLine();
+                Date date = sourceFormat.parse(stringDate);
+                director.setBirthdate(date);
+
+            } catch (ParseException exception) {
+                System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
+                exit = false;
+            }
+        } while (!exit);
+
+        // Nacionalidad
+        System.out.print("Nacionalidad del director: ");
+        director.setNationality(scanner.nextLine());
+
+        // Ocupación
+        System.out.print("Ocupación del director: ");
+        director.setJob(scanner.nextLine());
+
+        // Películas del director.
+        List<String> films = new ArrayList<>();
+        exit = false;
+        do {
+            System.out.print("\tNombre de la película: ");
+            films.add(scanner.nextLine());
+
+            System.out.print("¿Desea añadir más películas? (S/n)");
+            String exitAsk = scanner.nextLine();
+
+            if (!"sS".contains(exitAsk)) exit = true;
+        } while (!exit);
+        director.setFilms(films);
+
+        // Guardamos en la colección.
+        controller.addDirectorToCollection(director);
     }
 
     public void removeDirector() {
+        /**
+         * TODO: Comprobar si tiene (o no) películas.
+         */
+        int i = 1;
+        List<Director> directors = controller.getDirectors();
+        if (directors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
 
+        System.out.println("Listado de directores: ");
+        for (Director director : directors) {
+            System.out.println("\t["+(i++)+"] " + director.getName());
+        }
+
+        System.out.print("Introduzca el número (entre corchetes) que corresponde al director a borrar: ");
+        Integer deleteIndex = scanner.nextInt();
+
+
+        try {
+            controller.removeDirector(directors.get(deleteIndex-1));
+        } catch (IndexOutOfBoundsException exp) {
+            System.err.println("ERROR. Índice incorrecto.");
+        }
     }
 
     public void modifyDirector() {
+        int i = 1;
+        List<Director> directors = controller.getDirectors();
+        if (directors.isEmpty()) { System.err.println("No hay directores dados de alta."); return; }
 
+        System.out.println("Listado de directores: ");
+        for (Director director : directors) {
+            System.out.println("\t["+(i++)+"] " + director.getName());
+        }
+
+        System.out.print("Introduzca el número (entre corchetes) que corresponde al director a modificar: ");
+        Integer index = scanner.nextInt();
+
+        scanner.nextLine(); // Liberamos buffer.
+
+        try {
+            /*
+                private Date birthdate;
+                private String nationality;
+                private String job;
+            */
+
+            Director selectedDirector = directors.get(index-1);
+
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+            System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedDirector.getBirthdate()) + " (Intro para valor actual)): ");
+            String change = scanner.nextLine();
+            if (!change.equals("")) {
+                boolean exit = true;
+                do {
+                    DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date date = sourceFormat.parse(change);
+                        selectedDirector.setBirthdate(date);
+
+                    } catch (ParseException exception) {
+                        System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
+                        exit = false;
+                    }
+                } while (!exit);
+            }
+
+            System.out.print("Nacionalidad del director (actual " + selectedDirector.getNationality() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedDirector.setNationality(change);
+
+            System.out.print("Ocupación del director (actual " + selectedDirector.getJob() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedDirector.setJob(change);
+
+
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.err.println("Selección inválida.");
+        }
     }
+
 
     /**
      Relacionada con la opción "ACTORES"
@@ -344,15 +478,142 @@ public class View {
     }
 
     public void newActor() {
+        System.out.println("Introduzca los datos del actor: ");
 
+        Actor actor = new Actor();
+
+        // Nombre
+        System.out.print("Nombre del actor: ");
+        actor.setName(scanner.nextLine());
+
+        // Fecha de nacimiento
+        boolean exit = true;
+        do {
+            System.out.print("Fecha de nacimiento del actor, en formato dd/MM/yyyy: ");
+
+            DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                String stringDate = scanner.nextLine();
+                Date date = sourceFormat.parse(stringDate);
+                actor.setBirthdate(date);
+
+            } catch (ParseException exception) {
+                System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
+                exit = false;
+            }
+        } while (!exit);
+
+        // Nacionalidad
+        System.out.print("Nacionalidad del actor: ");
+        actor.setNationality(scanner.nextLine());
+
+        // Ocupación
+        System.out.print("Año de debut del actor: ");
+        actor.setDebutYear(scanner.nextInt());
+
+        scanner.nextLine(); // Limpiamos el buffer
+
+        // Películas del actor.
+        List<String> films = new ArrayList<>();
+        exit = false;
+        do {
+            System.out.print("\tNombre de la película: ");
+            films.add(scanner.nextLine());
+
+            System.out.print("¿Desea añadir más películas? (S/n)");
+            String exitAsk = scanner.nextLine();
+
+            if (!"sS".contains(exitAsk)) exit = true;
+        } while (!exit);
+        actor.setFilms(films);
+
+        // Guardamos en la colección.
+        controller.addActorToCollection(actor);
     }
 
     public void removeActor() {
 
+        /**
+         * TODO: Comprobar si tiene (o no) películas.
+         */
+        int i = 1;
+        List<Actor> actors = controller.getActors();
+        if (actors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
+
+        System.out.println("Listado de directores: ");
+        for (Actor actor : actors) {
+            System.out.println("\t["+(i++)+"] " + actor.getName());
+        }
+
+        System.out.print("Introduzca el número (entre corchetes) que corresponde al actor a borrar: ");
+        Integer deleteIndex = scanner.nextInt();
+
+
+        try {
+            controller.removeActor(actors.get(deleteIndex-1));
+        } catch (IndexOutOfBoundsException exp) {
+            System.err.println("ERROR. Índice incorrecto.");
+        }
     }
 
     public void modifyActor() {
+        int i = 1;
+        List<Actor> actors = controller.getActors();
+        if (actors.isEmpty()) { System.err.println("No hay actores dados de alta."); return; }
 
+        System.out.println("Listado de directores: ");
+        for (Actor actor : actors) {
+            System.out.println("\t["+(i++)+"] " + actor.getName());
+        }
+
+        System.out.print("Introduzca el número (entre corchetes) que corresponde al director a modificar: ");
+        Integer index = scanner.nextInt();
+
+        scanner.nextLine(); // Liberamos buffer.
+
+        try {
+            /*
+                private Date birthdate;
+                private String nationality;
+                private String job;
+            */
+
+            Actor selectedActor = actors.get(index-1);
+
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+            System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedActor.getBirthdate()) + " (Intro para valor actual)): ");
+            String change = scanner.nextLine();
+            if (!change.equals("")) {
+                boolean exit = true;
+                do {
+                    DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date date = sourceFormat.parse(change);
+                        selectedActor.setBirthdate(date);
+
+                    } catch (ParseException exception) {
+                        System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
+                        exit = false;
+                    }
+                } while (!exit);
+            }
+
+            System.out.print("Nacionalidad del director (actual " + selectedActor.getNationality() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedActor.setNationality(change);
+
+            System.out.print("Año de debut del actor (actual " + selectedActor.getDebutYear() + " (Intro para valor actual)): ");
+            Integer year = scanner.nextInt();
+
+            scanner.nextLine(); // Limpiamos buffer;
+
+            if (!change.equals("")) selectedActor.setDebutYear(year);
+
+
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.err.println("Selección inválida.");
+        }
     }
 
     public void listActorMovies() {

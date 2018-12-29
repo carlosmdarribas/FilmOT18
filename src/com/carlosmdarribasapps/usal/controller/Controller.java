@@ -39,6 +39,8 @@ public class Controller {
                     List<String> directorArray = new ArrayList<String>();
                     for (String directorName : directionString) {
                         directorArray.add(directorName);
+
+                        this.addDirectorToCollection(new Director(directorName));
                     }
 
                     String[] cast = currentLine[8].split("\t");
@@ -46,6 +48,8 @@ public class Controller {
                     List<String> castArray = new ArrayList<>();
                     for (String actorName : cast) {
                         castArray.add(actorName);
+
+                        this.addActorToCollection(new Actor(actorName));
                     }
 
                     localFilm.setName(currentLine[0]);
@@ -117,8 +121,21 @@ public class Controller {
         filmLibrary.removeFilm(film);
     }
 
+    public List<Director> getDirectors() {
+        return filmLibrary.getDirectors();
+    }
 
+    public void removeDirector(Director director) {
+        filmLibrary.removeDirector(director);
+    }
 
+    public List<Actor> getActors() {
+        return filmLibrary.getActors();
+    }
+
+    public void removeActor(Actor actor) {
+        filmLibrary.removeActor(actor);
+    }
 
     /*
     Parte de EXPORTAR

@@ -11,9 +11,9 @@ public class Director implements Serializable {
     private Date birthdate;
     private String nationality;
     private String job;
-    private List<Film> films;
+    private List<String> films;
 
-    public Director(String name, Date birthdate, String nationality, String job, List<Film> films) {
+    public Director(String name, Date birthdate, String nationality, String job, List<String> films) {
         this.name = name;
         this.birthdate = birthdate;
         this.nationality = nationality;
@@ -43,6 +43,6 @@ public class Director implements Serializable {
     public String getJob() { return job; }
     public void setJob(String job) { this.job = job; }
 
-    public List<Film> getFilms() { return films; }
-    public void setFilms(List<Film> films) { this.films = films; }
+    public List<String> getFilms() { return films; }
+    public void setFilms(List<String> films) { this.films = films; }
 }

@@ -38,7 +38,21 @@ public class FilmLibrary {
     }
 
     public void removeFilm(Film film) {
+        if (this.films == null || this.films.isEmpty()) return;
+
         this.films.remove(film);
+    }
+
+    public void removeDirector(Director director) {
+        if (this.directors == null || this.directors.isEmpty()) return;
+
+        this.directors.remove(director);
+    }
+
+    public void removeActor(Actor actor) {
+        if (this.actors == null || this.actors.isEmpty()) return;
+
+        this.actors.remove(actor);
     }
 
 
