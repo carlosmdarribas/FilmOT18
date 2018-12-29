@@ -8,6 +8,7 @@ import com.carlosmdarribasapps.usal.utils.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Controller {
@@ -40,7 +41,11 @@ public class Controller {
                     for (String directorName : directionString) {
                         directorArray.add(directorName);
 
-                        this.addDirectorToCollection(new Director(directorName), currentLine[0]);
+                        Director newDirector = new Director();
+                        newDirector.setName(directorName);
+                        newDirector.setFilms(new ArrayList<String>(Arrays.asList(currentLine[0])));
+
+                        this.addEmptyDirectorToCollection(newDirector);
                     }
 
                     String[] cast = currentLine[8].split("\t");
@@ -49,7 +54,10 @@ public class Controller {
                     for (String actorName : cast) {
                         castArray.add(actorName);
 
-                        this.addActorToCollection(new Actor(actorName));
+                        Actor newActor = new Actor();
+                        newActor.setName(actorName);
+                        newActor.setFilms(new ArrayList<String>(Arrays.asList(currentLine[0])));
+                        this.addEmptyActorToCollection(newActor);
                     }
 
                     localFilm.setName(currentLine[0]);

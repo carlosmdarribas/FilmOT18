@@ -195,7 +195,7 @@ public class View {
                 // El director no existe. Se crea vacio.
 
                 Actor newActor = new Actor();
-                newActor.setName(actor);
+                newActor.setName(actorName);
                 newActor.setFilms(new ArrayList<String>(Arrays.asList(newFilm.getName())));
                 controller.addEmptyActorToCollection(newActor);
             } else {
@@ -376,7 +376,7 @@ public class View {
         director.setFilms(films);
 
         // Guardamos en la colección.
-        controller.addDirectorToCollection(director);
+        controller.addEmptyDirectorToCollection(director);
     }
 
     public void removeDirector() {
