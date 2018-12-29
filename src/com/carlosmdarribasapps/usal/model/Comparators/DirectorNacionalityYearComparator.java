@@ -9,8 +9,6 @@ import java.util.Date;
 public class DirectorNacionalityYearComparator implements Comparator<Director> {
     @Override
     public int compare(Director d1, Director d2) {
-        System.out.println("d1 = [" + d1.getBirthdate() + "], d2 = [" + d2.getBirthdate() + "]");
-
         if (d1.getBirthdate() == null || d2.getBirthdate() == null ||  d1.getBirthdate().equals(d2.getBirthdate()))
             return d1.getNationality().compareTo(d2.getNationality());
         else

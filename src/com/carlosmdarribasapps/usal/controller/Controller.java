@@ -113,7 +113,7 @@ public class Controller {
                     Director director = new Director();
                     director.setName(currentLine[0]);
                     director.setBirthdate(CMUtils.stringToDate(currentLine[1], "yyyy-MM-dd"));
-                    director.setNationality(currentLine[2]);
+                    director.setNationality((currentLine[2].equals("")) ? "No Nationality" : currentLine[2]);
                     director.setJob(currentLine[3]);
 
                     String[] allFilms = currentLine[4].split("\t");

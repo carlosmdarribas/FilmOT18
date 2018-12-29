@@ -27,7 +27,7 @@ public class Director implements Serializable {
         this.name = name;
     }
 
-    public String toFormatedString() {
+    public String toFormattedString() {
         return String.format(Constants.COLUMNED_DIRECTOR_FORMAT,this.name,this.birthdate,this.nationality,this.job);
     }
 

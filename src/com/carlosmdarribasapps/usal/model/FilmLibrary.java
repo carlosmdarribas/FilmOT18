@@ -63,7 +63,7 @@ public class FilmLibrary {
 
         List<String>columnedDirectors = new ArrayList<>();
         for(Director director : this.directors)
-            columnedDirectors.add(director.toFormatedString());
+            columnedDirectors.add(director.toFormattedString());
 
         return columnedDirectors;
     }

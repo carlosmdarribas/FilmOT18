@@ -716,7 +716,8 @@ public class View {
         for (Director director : controller.getSortedFilmsNationalityAge()) {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-            System.out.printf(Constants.DIRECTOR_TABLE_FORMAT+"\n", director.getName(), director.getBirthdate(), df.format(director.getBirthdate()), director.getJob());
+            System.out.printf(Constants.DIRECTOR_TABLE_FORMAT+"\n", director.getName(),
+                    ((director.getBirthdate() != null) ? df.format(director.getBirthdate()) : "No date"), director.getNationality(), director.getJob(), director.getFilms().toString());
         }
     }
 
