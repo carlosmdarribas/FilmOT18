@@ -1,14 +1,18 @@
 package com.carlosmdarribasapps.usal.controller;
 
 import com.carlosmdarribasapps.usal.model.Actor;
+import com.carlosmdarribasapps.usal.model.Comparators.FilmAlphabeticComparator;
 import com.carlosmdarribasapps.usal.model.Director;
 import com.carlosmdarribasapps.usal.model.Film;
 import com.carlosmdarribasapps.usal.model.FilmLibrary;
+import com.carlosmdarribasapps.usal.utils.CMUtils;
 import com.carlosmdarribasapps.usal.utils.Constants;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Controller {
@@ -23,10 +27,17 @@ public class Controller {
         List<String> readedFilms;
 
         // Comprobamos si existe el binario "peliculas.bin" en la carpeta.
-        if (!CMFileHandler.checkIfFileExists(Constants.FILMS_BIN_PATH)) {
+        if (CMFileHandler.checkIfFileExists(Constants.FILMS_BIN_PATH)) {
             // El archivo existe, lo leemos de BIN.
+            System.out.println("[DEBUG] Existe el BIN de peliculas. Leemos de él.");
 
-        } else {
+            try {
+                filmLibrary.setFilms(fileHandler.binToFilms(Constants.FILMS_BIN_PATH));
+            } catch (ClassNotFoundException exception) {
+                System.err.println("Error al importar de binario.");
+            }
+
+        } else if (CMFileHandler.checkIfFileExists(Constants.FILMS_TXT_PATH)) {
             // El archivo no existe, leemos e importamos el TXT.
 
             try {
@@ -40,12 +51,6 @@ public class Controller {
                     List<String> directorArray = new ArrayList<String>();
                     for (String directorName : directionString) {
                         directorArray.add(directorName);
-
-                        Director newDirector = new Director();
-                        newDirector.setName(directorName);
-                        newDirector.setFilms(new ArrayList<String>(Arrays.asList(currentLine[0])));
-
-                        this.addEmptyDirectorToCollection(newDirector);
                     }
 
                     String[] cast = currentLine[8].split("\t");
@@ -82,6 +87,68 @@ public class Controller {
 
         }
 
+        /**
+         * Directores
+         */
+        if (CMFileHandler.checkIfFileExists(Constants.DIRECTORS_BIN_PATH)) {
+            // El archivo existe, lo leemos de BIN.
+            System.out.println("[DEBUG] Existe el BIN de directores. Leemos de él.");
+
+            try {
+                filmLibrary.setDirectors(fileHandler.binToDirectors(Constants.DIRECTORS_BIN_PATH));
+            } catch (ClassNotFoundException exception) {
+                System.err.println("Error al importar de binario.");
+            }
+
+        } else if (CMFileHandler.checkIfFileExists(Constants.DIRECTORS_TXT_PATH)) {
+            System.out.println("[DEBUG] Leemos del TXT al no existir el de binario.");
+
+            try {
+                // Esto devuelve un array de String, que son cada una de las lineas.
+                List<String> linesArray = fileHandler.readDataFromTextFile(Constants.DIRECTORS_TXT_PATH);
+                for (String line : linesArray) {
+                    String[] currentLine = line.split("#");
+
+                    Director director = new Director();
+                    director.setName(currentLine[0]);
+                    director.setBirthdate(CMUtils.stringToDate(currentLine[1], "yyyy-MM-dd"));
+                    director.setNationality(currentLine[2]);
+                    director.setJob(currentLine[3]);
+
+                    String[] allFilms = currentLine[4].split("\t");
+                    List<String> filmsArray = new ArrayList<String>();
+                    for (String filmName : allFilms) {
+                        filmsArray.add(filmName);
+                    }
+                    director.setFilms(filmsArray);
+
+                    this.addEmptyDirectorToCollection(director);
+                }
+            } catch (ArrayIndexOutOfBoundsException indexOut) {
+                System.err.println("ERROR. Elementos insuficientes.");
+            } catch (IllegalArgumentException e) {
+                System.err.println("ERROR. Formato de elementos ilegal.");
+            } catch (IOException exception) {
+                System.err.println("ERROR importando fichero de texto.");
+            }
+        }
+
+        /**
+         * Actores
+         */
+        if (CMFileHandler.checkIfFileExists(Constants.ACTORS_BIN_PATH)) {
+            // El archivo existe, lo leemos de BIN.
+            System.out.println("[DEBUG] Existe el BIN de actores. Leemos de él.");
+
+            try {
+                filmLibrary.setActors(fileHandler.binToActors(Constants.ACTORS_BIN_PATH));
+            } catch (ClassNotFoundException exception) {
+                System.err.println("Error al importar de binario.");
+            }
+
+        } else if (CMFileHandler.checkIfFileExists(Constants.ACTORS_TXT_PATH)) {
+
+        }
     }
 
     public void salidaPrograma() throws IOException {
@@ -167,6 +234,14 @@ public class Controller {
         }
 
         return null;
+    }
+
+    public List<Film> getSortedFilmsAlph() {
+        List<Film> sortedFilms = this.getFilms();
+
+        Collections.sort(sortedFilms, new FilmAlphabeticComparator());
+
+        return sortedFilms;
     }
 
     /*

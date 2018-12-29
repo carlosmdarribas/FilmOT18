@@ -4,6 +4,7 @@ import com.carlosmdarribasapps.usal.controller.Controller;
 import com.carlosmdarribasapps.usal.model.Actor;
 import com.carlosmdarribasapps.usal.model.Director;
 import com.carlosmdarribasapps.usal.model.Film;
+import com.carlosmdarribasapps.usal.utils.CMUtils;
 import com.carlosmdarribasapps.usal.utils.Constants;
 
 import java.io.IOException;
@@ -15,6 +16,11 @@ import java.util.*;
 public class View {
     Controller controller = new Controller();
     Scanner scanner = new Scanner(System.in);
+
+    /* TODO:
+          Comprobar la autenticidad de los scanner. (Int es Int, etc)
+          Revisar EXCEPCIONES
+     */
 
     public void runMenu(String[] menus) {
         boolean salir = false;
@@ -341,16 +347,8 @@ public class View {
         do {
             System.out.print("Fecha de nacimiento del director, en formato dd/MM/yyyy: ");
 
-            DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-            try {
-                String stringDate = scanner.nextLine();
-                Date date = sourceFormat.parse(stringDate);
-                director.setBirthdate(date);
+            director.setBirthdate(CMUtils.stringToDate(scanner.nextLine(), "dd-MM-yyyy"));
 
-            } catch (ParseException exception) {
-                System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
-                exit = false;
-            }
         } while (!exit);
 
         // Nacionalidad
@@ -406,7 +404,7 @@ public class View {
     public void modifyDirector() {
         int i = 1;
         List<Director> directors = controller.getDirectors();
-        if (directors.isEmpty()) { System.err.println("No hay directores dados de alta."); return; }
+        if (directors == null || directors.isEmpty()) { System.err.println("No hay directores dados de alta."); return; }
 
         System.out.println("Listado de directores: ");
         for (Director director : directors) {
@@ -549,7 +547,7 @@ public class View {
          */
         int i = 1;
         List<Actor> actors = controller.getActors();
-        if (actors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
+        if (actors == null || actors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
 
         System.out.println("Listado de directores: ");
         for (Actor actor : actors) {
@@ -570,7 +568,7 @@ public class View {
     public void modifyActor() {
         int i = 1;
         List<Actor> actors = controller.getActors();
-        if (actors.isEmpty()) { System.err.println("No hay actores dados de alta."); return; }
+        if (actors == null || actors.isEmpty()) { System.err.println("No hay actores dados de alta."); return; }
 
         System.out.println("Listado de directores: ");
         for (Actor actor : actors) {
@@ -638,7 +636,7 @@ public class View {
 
             int i = 1;
             List<Actor> actors = controller.getActors();
-            if (actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
+            if (actors == null || actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
 
             System.out.println("Listado de actores: ");
             for (Actor actor : actors) {
@@ -709,7 +707,9 @@ public class View {
     }
 
     public void listFilmsAlph() {
-
+        for (Film film : controller.getSortedFilmsAlph()) {
+            System.out.printf(Constants.FILM_ACTOR_TABLE_FORMAT+"\n", film.getName(), film.getYear(), film.getDuration(), film.getCountry(), film.getGenre());
+        }
     }
 
     public void listDirectorsNac_Age() {

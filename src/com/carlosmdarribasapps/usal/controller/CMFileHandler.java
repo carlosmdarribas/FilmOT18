@@ -24,6 +24,9 @@ public class CMFileHandler {
     }
 
 
+    /*
+        PELICULAS
+     */
     public void filmsToBin(String path,List<Film>filmList) throws IOException{
         File f = new File(path);
         ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
@@ -31,13 +34,21 @@ public class CMFileHandler {
         oos.close();
     }
 
-    public void actorsToBin(String path,List<Actor>filmList) throws IOException{
+    public List<Film> binToFilms(String path) throws IOException, ClassNotFoundException {
+        List<Film> films;
+
         File f = new File(path);
-        ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
-        oos.writeObject(filmList);
-        oos.close();
+        ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+        films = (List<Film>) ois.readObject();
+        ois.close();
+
+        return films;
     }
 
+
+    /*
+        DIRECTORES
+     */
     public void directorsToBin(String path,List<Director>filmList) throws IOException{
         File f = new File(path);
         ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
@@ -45,6 +56,37 @@ public class CMFileHandler {
         oos.close();
     }
 
+    public List<Director> binToDirectors(String path) throws IOException, ClassNotFoundException {
+        List<Director> directors;
+
+        File f = new File(path);
+        ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+        directors = (List<Director>) ois.readObject();
+        ois.close();
+
+        return directors;
+    }
+
+    /*
+        ACTORES
+     */
+    public void actorsToBin(String path,List<Actor>filmList) throws IOException{
+        File f = new File(path);
+        ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)));
+        oos.writeObject(filmList);
+        oos.close();
+    }
+
+    public List<Actor> binToActors(String path) throws IOException, ClassNotFoundException {
+        List<Actor> actors;
+
+        File f = new File(path);
+        ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+        actors = (List<Actor>) ois.readObject();
+        ois.close();
+
+        return actors;
+    }
 
     public static boolean checkIfFileExists(String fileName) {
         boolean found = false;

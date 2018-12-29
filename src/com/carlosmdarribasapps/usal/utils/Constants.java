@@ -19,6 +19,6 @@ public class Constants {
 
     public final static String COLUMNED_DIRECTOR_FORMAT  = "%-30s%10.2f%10.2f%10d";
     public final static String FILM_TABLE_FORMAT  = "|%-30s|%6s|%4s|%10s|%10s|%10s|%10s|%10s|%10s|%10s|%10s|%10s";
-    public final static String FILM_ACTOR_TABLE_FORMAT  = "|%-30s|%6s|%6s|%15s|%10s";
+    public final static String FILM_ACTOR_TABLE_FORMAT  = "|%-50s|%6s|%6s|%25s|%20s|";
 
 }
