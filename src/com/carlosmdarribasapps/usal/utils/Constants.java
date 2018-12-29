@@ -22,4 +22,7 @@ public class Constants {
     public final static String FILM_ACTOR_TABLE_FORMAT  = "|%-50s|%6s|%6s|%25s|%20s|";
     public final static String DIRECTOR_TABLE_FORMAT  = "|%-25s|%15s|%25s|%70s|%80s|";
 
+    // nombre, fecha de nacimiento, nacionalidad y año de debut
+    public final static String ACTOR_TABLE_FORMAT  = "|%-50s|%15s|%25s|%10s|%80s|";
+
 }

@@ -1,6 +1,7 @@
 package com.carlosmdarribasapps.usal.controller;
 
 import com.carlosmdarribasapps.usal.model.Actor;
+import com.carlosmdarribasapps.usal.model.Comparators.ActorDebutAndNameComparator;
 import com.carlosmdarribasapps.usal.model.Comparators.DirectorNacionalityYearComparator;
 import com.carlosmdarribasapps.usal.model.Comparators.FilmAlphabeticComparator;
 import com.carlosmdarribasapps.usal.model.Director;
@@ -157,9 +158,9 @@ public class Controller {
                     Actor actor = new Actor();
                     actor.setName(currentLine[0]);
                     actor.setBirthdate(CMUtils.stringToDate(currentLine[1], "yyyy-MM-dd"));
-                    actor.setNationality(currentLine[2]);
-                    actor.setDebutYear((CMUtils.isStringParsableToInt(currentLine[3])) ? Integer.parseInt(currentLine[3]) : -1);
 
+                    actor.setNationality((currentLine[2].equals("") || currentLine[2] == null) ? "No Nationality" : currentLine[2]);
+                    actor.setDebutYear((CMUtils.isStringParsableToInt(currentLine[3]) || currentLine[3].equals("0")) ? Integer.parseInt(currentLine[3]) : -1);
 
                     String[] allFilms = currentLine[4].split("\t");
                     List<String> filmsArray = new ArrayList<String>();
@@ -282,6 +283,13 @@ public class Controller {
         Collections.sort(sortedDirectors, new DirectorNacionalityYearComparator());
 
         return sortedDirectors;
+    }
+
+    public List<Actor> getSortedActorsDebutYearAndName() {
+        List<Actor> sortedActors = new ArrayList<>(this.getActors());
+        Collections.sort(sortedActors, new ActorDebutAndNameComparator());
+
+        return sortedActors;
     }
 
     /*

@@ -717,12 +717,22 @@ public class View {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
             System.out.printf(Constants.DIRECTOR_TABLE_FORMAT+"\n", director.getName(),
-                    ((director.getBirthdate() != null) ? df.format(director.getBirthdate()) : "No date"), director.getNationality(), director.getJob(), director.getFilms().toString());
+                    ((director.getBirthdate() != null) ? df.format(director.getBirthdate()) : "No date"), director.getNationality(),
+                    director.getJob(), String.join(", ", director.getFilms()));
         }
     }
 
     public void listActorsName_Debut() {
-        
+        for (Actor actor : controller.getSortedActorsDebutYearAndName()) {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+             System.out.printf(Constants.ACTOR_TABLE_FORMAT+"\n",
+                     actor.getName(),
+                     ((actor.getBirthdate() != null) ? df.format(actor.getBirthdate()) : "No date"),
+                     (actor.getNationality() == null) ? "No Nationality" :actor.getNationality(),
+                     ((actor.getDebutYear() > 0) ? actor.getDebutYear() : "No year"),
+                     String.join(", ", actor.getFilms()));
+        }
     }
 
 
