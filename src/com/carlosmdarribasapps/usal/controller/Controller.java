@@ -147,7 +147,33 @@ public class Controller {
             }
 
         } else if (CMFileHandler.checkIfFileExists(Constants.ACTORS_TXT_PATH)) {
+            try {
+                // Esto devuelve un array de String, que son cada una de las lineas.
+                List<String> linesArray = fileHandler.readDataFromTextFile(Constants.ACTORS_TXT_PATH);
+                for (String line : linesArray) {
+                    String[] currentLine = line.split("#");
 
+                    Actor actor = new Actor();
+                    actor.setName(currentLine[0]);
+                    actor.setBirthdate(CMUtils.stringToDate(currentLine[1], "yyyy-MM-dd"));
+                    actor.setNationality(currentLine[2]);
+                    actor.setDebutYear((CMUtils.isStringParsableToInt(currentLine[3])) ? Integer.parseInt(currentLine[3]) : -1);
+
+
+                    String[] allFilms = currentLine[4].split("\t");
+                    List<String> filmsArray = new ArrayList<String>();
+                    for (String filmName : allFilms) {
+                        filmsArray.add(filmName);
+                    }
+                    actor.setFilms(filmsArray);
+
+                    this.addEmptyActorToCollection(actor);
+                }
+            } catch (ArrayIndexOutOfBoundsException indexOut) {
+                System.err.println("ERROR. Elementos insuficientes.");
+            } catch (IOException e) {
+                System.err.println("Elemento inválido detectado");
+            }
         }
     }
 
@@ -237,7 +263,7 @@ public class Controller {
     }
 
     public List<Film> getSortedFilmsAlph() {
-        List<Film> sortedFilms = this.getFilms();
+        List<Film> sortedFilms = new ArrayList<>(this.getFilms());
 
         Collections.sort(sortedFilms, new FilmAlphabeticComparator());
 

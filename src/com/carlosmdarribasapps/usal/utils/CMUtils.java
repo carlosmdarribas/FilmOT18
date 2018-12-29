@@ -19,4 +19,13 @@ public class CMUtils {
             return null;
         }
     }
+
+    public static boolean isStringParsableToInt(String input){
+        try {
+            Integer.valueOf(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }
