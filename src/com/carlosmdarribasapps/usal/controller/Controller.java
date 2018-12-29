@@ -40,7 +40,7 @@ public class Controller {
                     for (String directorName : directionString) {
                         directorArray.add(directorName);
 
-                        this.addDirectorToCollection(new Director(directorName));
+                        this.addDirectorToCollection(new Director(directorName), currentLine[0]);
                     }
 
                     String[] cast = currentLine[8].split("\t");
@@ -62,7 +62,7 @@ public class Controller {
                     localFilm.setPhotography(currentLine[7]);
                     localFilm.setCast(castArray);
                     localFilm.setProducer(currentLine[9]);
-                    localFilm.setGender(currentLine[10]);
+                    localFilm.setgenre(currentLine[10]);
                     localFilm.setSynopsis(currentLine[11]);
 
                     filmLibrary.addFilm(localFilm);
@@ -91,6 +91,18 @@ public class Controller {
         return false;
     }
 
+    public Director getDirectorFromCollectionWithName(String directorName) {
+        for (Director director : this.getDirectors()) if (director.getName().equals(directorName)) return director;
+
+        return null;
+    }
+
+    public Actor getActorFromCollectionWithName(String actorName) {
+        for (Actor actor : this.getActors()) if (actor.getName().equals(actorName)) return actor;
+
+        return null;
+    }
+
     public boolean checkIfActorExists(String actorName) {
         if (filmLibrary.getActors() == null || filmLibrary.getActors().isEmpty()) return false;
 
@@ -104,8 +116,12 @@ public class Controller {
         filmLibrary.addFilm(film);
     }
 
-    public void addDirectorToCollection(Director director) {
+    public void addEmptyDirectorToCollection(Director director) {
         filmLibrary.addDirector(director);
+    }
+
+    public void addEmptyActorToCollection(Actor actor) {
+        filmLibrary.addActor(actor);
     }
 
     public void addActorToCollection(Actor actor) {
@@ -135,6 +151,14 @@ public class Controller {
 
     public void removeActor(Actor actor) {
         filmLibrary.removeActor(actor);
+    }
+
+    public Film getFilmByName(String name) {
+        for (Film film : this.getFilms()) {
+            if (film.getName().equals(name)) return film;
+        }
+
+        return null;
     }
 
     /*

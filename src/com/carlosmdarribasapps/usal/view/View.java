@@ -10,10 +10,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class View {
     Controller controller = new Controller();
@@ -152,10 +149,17 @@ public class View {
             String directorName = scanner.nextLine();
             directors.add(directorName);
 
-
-            if (!controller.checkIfDirectorExists(directorName)) {
+            Director director = controller.getDirectorFromCollectionWithName(directorName);
+            if (director == null) {
                 // El director no existe. Se crea vacio.
-                controller.addDirectorToCollection(new Director(directorName));
+
+                Director newDirector = new Director();
+                newDirector.setName(directorName);
+                newDirector.setFilms(new ArrayList<String>(Arrays.asList(newFilm.getName())));
+                controller.addEmptyDirectorToCollection(newDirector);
+            } else {
+                // El director existe. Por lo que le achacamos la película.
+                director.getFilms().add(newFilm.getName());
             }
 
             System.out.print("¿Desea añadir más directores? (S/n)");
@@ -182,17 +186,24 @@ public class View {
         List<String> cast = new ArrayList<>();
         exit = false;
         do {
-            System.out.print("\tNombre del actor / actriz: ");
+            System.out.print("\tNombre del actor/actriz: ");
             String actorName = scanner.nextLine();
             cast.add(actorName);
 
-
-            if (!controller.checkIfActorExists(actorName)) {
+            Actor actor = controller.getActorFromCollectionWithName(actorName);
+            if (actor == null) {
                 // El director no existe. Se crea vacio.
-                controller.addActorToCollection(new Actor(actorName));
+
+                Actor newActor = new Actor();
+                newActor.setName(actor);
+                newActor.setFilms(new ArrayList<String>(Arrays.asList(newFilm.getName())));
+                controller.addEmptyActorToCollection(newActor);
+            } else {
+                // El director existe. Por lo que le achacamos la película.
+                actor.getFilms().add(newFilm.getName());
             }
 
-            System.out.print("¿Desea añadir más actores? (S/n)");
+            System.out.print("¿Desea añadir más directores? (S/n)");
             String exitAsk = scanner.nextLine();
 
             if (!"sS".contains(exitAsk)) exit = true;
@@ -205,7 +216,7 @@ public class View {
 
         // Género
         System.out.print("\tGénero de la película: /s: ");
-        newFilm.setGender(scanner.nextLine());
+        newFilm.setgenre(scanner.nextLine());
 
         // Sinopsis
         System.out.print("\tSinopsis: ");
@@ -240,7 +251,7 @@ public class View {
     }
 
     public void showFilmInformation() {
-        System.out.print("¿Desea seleccionar la película por lista o nombre? L/n");
+        System.out.print("¿Desea seleccionar la película por lista o nombre? L/N");
         String exitAsk = scanner.nextLine();
 
         Film selectedFilm = null;
@@ -250,7 +261,7 @@ public class View {
 
             int i = 1;
             List<Film> films = controller.getFilms();
-            if (films.isEmpty()) { System.err.println("No hay películas para eliminar."); return; }
+            if (films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
 
             System.out.println("Listado de películas: ");
             for (Film film : films) {
@@ -280,7 +291,7 @@ public class View {
 
         System.out.printf(Constants.FILM_TABLE_FORMAT, selectedFilm.getName(), selectedFilm.getYear(), selectedFilm.getDuration(), selectedFilm.getCountry(),
                 selectedFilm.getDirection().toString(), selectedFilm.getGuion(), selectedFilm.getMusic(), selectedFilm.getPhotography(), selectedFilm.getCast().toString(),
-                selectedFilm.getProducer(), selectedFilm.getGender(), selectedFilm.getSynopsis());
+                selectedFilm.getProducer(), selectedFilm.getGenre(), selectedFilm.getSynopsis());
     }
 
     /**
@@ -617,7 +628,58 @@ public class View {
     }
 
     public void listActorMovies() {
+        System.out.print("¿Desea seleccionar el actor por lista o nombre? L/N");
+        String exitAsk = scanner.nextLine();
 
+        Actor selectedActor = null;
+
+        if ("Ll".contains(exitAsk)) {
+            // Mostramos la lista.
+
+            int i = 1;
+            List<Actor> actors = controller.getActors();
+            if (actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
+
+            System.out.println("Listado de actores: ");
+            for (Actor actor : actors) {
+                System.out.println("\t["+(i++)+"] " + actor.getName());
+            }
+
+            System.out.print("Introduzca el número del actor sobre el que desea mostrar: ");
+            Integer index = scanner.nextInt();
+
+            try {
+                selectedActor = actors.get(index-1);
+            } catch (IndexOutOfBoundsException exp) {
+                System.err.println("ERROR. Índice incorrecto.");
+            }
+        } else {
+            System.out.print("Nombre del actor: ");
+            String actorName = scanner.nextLine();
+
+            for (Actor actor : controller.getActors()) {
+                if (actor.getName().contains(actorName)) {
+                    selectedActor = actor;
+                    break;
+                }
+            }
+
+            if (selectedActor == null) {
+                System.err.println("ERROR: No hay actores con ese nombre.");
+                return;
+            }
+        }
+
+
+        for (String filmName : selectedActor.getFilms()) {
+            System.out.println(filmName);
+
+            Film film = controller.getFilmByName(filmName);
+            film = (film == null) ? new Film(filmName) : film;
+
+            // título, año, duración, país y género.
+            System.out.printf(Constants.FILM_ACTOR_TABLE_FORMAT, film.getName(), film.getYear(), film.getDuration(), film.getCountry(), film.getGenre());
+        }
     }
 
 

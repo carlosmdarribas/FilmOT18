@@ -19,10 +19,10 @@ public class Film implements Serializable {
     private String photography;
     private List<String> cast;
     private String producer;
-    private String gender;
+    private String genre;
     private String synopsis;
 
-    public Film(String name, int year, int duration, String country, List<String> direction, String guion, String music, String photography, List<String> cast, String producer, String gender, String synopsis) {
+    public Film(String name, int year, int duration, String country, List<String> direction, String guion, String music, String photography, List<String> cast, String producer, String genre, String synopsis) {
         this.name = name;
         this.year = year;
         this.duration = duration;
@@ -33,12 +33,16 @@ public class Film implements Serializable {
         this.photography = photography;
         this.cast = cast;
         this.producer = producer;
-        this.gender = gender;
+        this.genre = genre;
         this.synopsis = synopsis;
     }
 
     public Film() {
 
+    }
+
+    public Film(String name) {
+        this.name = name;
     }
 
     public String toHtmlString() {
@@ -53,7 +57,7 @@ public class Film implements Serializable {
                 this.photography,
                 this.cast,
                 this.producer,
-                this.gender,
+                this.genre,
                 this.synopsis);
     }
 
@@ -137,12 +141,12 @@ public class Film implements Serializable {
         this.producer = producer;
     }
 
-    public String getGender() {
-        return gender;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setgenre(String genre) {
+        this.genre = genre;
     }
 
     public String getSynopsis() {
