@@ -3,6 +3,8 @@ package com.carlosmdarribasapps.usal.model;
 import com.carlosmdarribasapps.usal.utils.Constants;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +30,11 @@ public class Director implements Serializable {
     }
 
     public String toFormattedString() {
-        return String.format(Constants.COLUMNED_DIRECTOR_FORMAT,this.name,this.birthdate,this.nationality,this.job);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+        return String.format(Constants.DIRECTOR_TABLE_FORMAT+"\n", this.getName(),
+                ((this.getBirthdate() != null) ? df.format(this.getBirthdate()) : "No date"), this.getNationality(),
+                this.getJob(), String.join(", ", this.getFilms()));
     }
 
     public String getName() { return name; }

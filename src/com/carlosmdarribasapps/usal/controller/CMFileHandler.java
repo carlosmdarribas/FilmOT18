@@ -23,6 +23,15 @@ public class CMFileHandler {
         return linesArray;
     }
 
+    public void exportHTMLFile(String path, List<String> HTML) throws IOException {
+        File f = new File(path);
+        Files.write(f.toPath(), HTML, Charset.forName("UTF-8"));
+    }
+
+    public void exportColumnedFile(String path, List<String> data) throws IOException {
+        File f = new File(path);
+        Files.write(f.toPath(), data, Charset.forName("UTF-8"));
+    }
 
     /*
         PELICULAS

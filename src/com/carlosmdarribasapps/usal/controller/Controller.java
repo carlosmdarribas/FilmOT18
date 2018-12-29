@@ -9,6 +9,7 @@ import com.carlosmdarribasapps.usal.model.Film;
 import com.carlosmdarribasapps.usal.model.FilmLibrary;
 import com.carlosmdarribasapps.usal.utils.CMUtils;
 import com.carlosmdarribasapps.usal.utils.Constants;
+import com.sun.tools.internal.jxc.ap.Const;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -77,7 +78,7 @@ public class Controller {
                     localFilm.setPhotography(currentLine[7]);
                     localFilm.setCast(castArray);
                     localFilm.setProducer(currentLine[9]);
-                    localFilm.setgenre(currentLine[10]);
+                    localFilm.setGenre(currentLine[10]);
                     localFilm.setSynopsis(currentLine[11]);
 
                     filmLibrary.addFilm(localFilm);
@@ -297,30 +298,44 @@ public class Controller {
      */
 
     public List<String> exportDirectorsToColumns() throws IOException{
-        List<String>productos = filmLibrary.getDirectorsInColumns();
+        List<String>directors = filmLibrary.getDirectorsInColumns();
 
-        if( null == productos){
-            productos = new ArrayList<>();
-            productos.add("No data aviable");
+        if (directors == null){
+            directors = new ArrayList<>();
+            directors.add("No data available");
         }
 
-        //fh.exportToTextFile(Constantes.RUTA_PRODUCTOS_COL, productos);
+        fileHandler.exportColumnedFile(Constants.DIRECTORS_COL_PATH, directors);
         return null;
     }
 
 
 
     public void exportFilmsToHTML() throws IOException{
-        List<String>productos = filmLibrary.getFilmsInHTML();
-        if( null == productos){
-            productos = new ArrayList<>();
-            productos.add("<TR><TD><STRONG>No data aviable</STRONG></TD></TR>");
-        }
-        productos.add(0,String.format("<TR> <TD><STRONG>%s</STRONG></TD> <TD><STRONG>%s</STRONG></TD> <TD><STRONG>%s</STRONG></TD> <TD><STRONG>%s</STRONG></TD></TR>","Nombre","Precio","Iva","Stock"));
+        List<String> peliculas = filmLibrary.getFilmsInHTML();
 
-        /*
-        fh.generarEnvoltorioHtml(productos,"PRODUCTOS");
-        fh.exportToTextFile(Constantes.RUTA_PRODUCTOS_HTML,productos);
-        */
+        if (null == peliculas){
+            peliculas = new ArrayList<>();
+            peliculas.add("<TR><TD><STRONG>No films available</STRONG></TD></TR>");
+        }
+
+        peliculas.add(0,String.format("<TR><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH></TR>",
+                "Nombre",
+                "Año",
+                "Duración",
+                "País",
+                "Dirección",
+                "Guión",
+                "Música",
+                "Fotografía",
+                "Reparto",
+                "Productor",
+                "Género",
+                "Sinopsis"));
+
+        peliculas.add(0, "<table>");
+        peliculas.add("</table>");
+
+        fileHandler.exportHTMLFile(Constants.FILMS_HTML_PATH, peliculas);
     }
 }

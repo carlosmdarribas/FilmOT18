@@ -222,7 +222,7 @@ public class View {
 
         // Género
         System.out.print("\tGénero de la película: /s: ");
-        newFilm.setgenre(scanner.nextLine());
+        newFilm.setGenre(scanner.nextLine());
 
         // Sinopsis
         System.out.print("\tSinopsis: ");
@@ -245,15 +245,74 @@ public class View {
         Integer deleteIndex = scanner.nextInt();
 
 
-        if (deleteIndex < 0 || deleteIndex > i)
+        if (deleteIndex <= 0 || deleteIndex > i)
             System.err.println("ERROR. Índice incorrecto.");
         else {
-            controller.removeFilm(films.get(deleteIndex-1));
+            try {
+                controller.removeFilm(films.get(deleteIndex-1));
+            } catch (IndexOutOfBoundsException exp) {
+                System.err.println("ERROR. Índice incorrecto.");
+            }
         }
     }
 
     public void modifyFilm() {
+        int i = 1;
+        List<Film> films = controller.getFilms();
+        if (films == null || films.isEmpty()) { System.err.println("No hay películas dadas de alta."); return; }
 
+        System.out.println("Listado de películas: ");
+        for (Film film : films) {
+            System.out.println("\t["+(i++)+"] " + film.getName());
+        }
+
+        System.out.print("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ");
+        Integer index = scanner.nextInt();
+
+        scanner.nextLine(); // Liberamos buffer.
+
+        try {
+            Film selectedFilm = films.get(index-1);
+
+            System.out.print("Año de la película (actual " + selectedFilm.getYear() + " (Intro para valor actual)): ");
+            String change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setYear(Integer.parseInt(change));
+
+            System.out.print("Duración de la película (actual " + selectedFilm.getDuration() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setDuration(Integer.parseInt(change));
+
+            System.out.print("País de la película (actual " + selectedFilm.getCountry() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setCountry(change);
+
+            System.out.print("Guionistas de la película (actual " + selectedFilm.getGuion() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setGuion(change);
+
+            System.out.print("Músicos de la película (actual " + selectedFilm.getMusic() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setMusic(change);
+
+            System.out.print("Fotografía de la película (actual " + selectedFilm.getPhotography() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setPhotography(change);
+
+            System.out.print("Productor de la película (actual " + selectedFilm.getProducer() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setProducer(change);
+
+            System.out.print("Género de la película (actual " + selectedFilm.getGenre() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setGenre(change);
+
+            System.out.print("Sinopsis de la película (actual " + selectedFilm.getSynopsis() + " (Intro para valor actual)): ");
+            change = scanner.nextLine();
+            if (!change.equals("")) selectedFilm.setSynopsis(change);
+
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.err.println("Selección inválida.");
+        }
     }
 
     public void showFilmInformation() {
@@ -394,10 +453,14 @@ public class View {
         Integer deleteIndex = scanner.nextInt();
 
 
-        try {
-            controller.removeDirector(directors.get(deleteIndex-1));
-        } catch (IndexOutOfBoundsException exp) {
+        if (deleteIndex <= 0 || deleteIndex > i)
             System.err.println("ERROR. Índice incorrecto.");
+        else {
+            try {
+                controller.removeDirector(directors.get(deleteIndex-1));
+            } catch (IndexOutOfBoundsException exp) {
+                System.err.println("ERROR. Índice incorrecto.");
+            }
         }
     }
 
@@ -558,10 +621,14 @@ public class View {
         Integer deleteIndex = scanner.nextInt();
 
 
-        try {
-            controller.removeActor(actors.get(deleteIndex-1));
-        } catch (IndexOutOfBoundsException exp) {
+        if (deleteIndex <= 0 || deleteIndex > i)
             System.err.println("ERROR. Índice incorrecto.");
+        else {
+            try {
+                controller.removeActor(actors.get(deleteIndex-1));
+            } catch (IndexOutOfBoundsException exp) {
+                System.err.println("ERROR. Índice incorrecto.");
+            }
         }
     }
 
@@ -734,9 +801,5 @@ public class View {
                      String.join(", ", actor.getFilms()));
         }
     }
-
-
-
-    // Funciones añadidas
 
 }

@@ -46,16 +46,16 @@ public class Film implements Serializable {
     }
 
     public String toHtmlString() {
-        return String.format("<TR><TD>%s</TD><TD>%.2f</TD><TD>%.2f</TD><TD>%d</TD></TR>",
+        return String.format("<TR><TD>%s</TD><TD>%d</TD><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD></TR>",
                 this.name = name,
                 this.year,
                 this.duration,
                 this.country,
-                this.direction,
+                String.join(",", this.direction),
                 this.guion,
                 this.music,
                 this.photography,
-                this.cast,
+                String.join(",", this.cast),
                 this.producer,
                 this.genre,
                 this.synopsis);
@@ -145,7 +145,7 @@ public class Film implements Serializable {
         return genre;
     }
 
-    public void setgenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
