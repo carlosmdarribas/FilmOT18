@@ -103,4 +103,6 @@ public class Constants {
             "</tr>\n" +
             "</thead>\n" +
             "<tbody>";
+
+    public static final String HTML_TABLE_FOOTER = "</table><br><center><i>Developed by Carlos Martín de Arribas in Salamanca for USAL.</i></center></body></html>";
 }

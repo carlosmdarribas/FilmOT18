@@ -9,10 +9,8 @@ import com.carlosmdarribasapps.usal.model.Film;
 import com.carlosmdarribasapps.usal.model.FilmLibrary;
 import com.carlosmdarribasapps.usal.utils.CMUtils;
 import com.carlosmdarribasapps.usal.utils.Constants;
-import com.sun.tools.internal.jxc.ap.Const;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -320,7 +318,7 @@ public class Controller {
         }
 
         peliculas.add(0, Constants.HTML_TABLE_HEADER);
-        peliculas.add("</tbody></table>");
+        peliculas.add(Constants.HTML_TABLE_FOOTER);
 
         fileHandler.exportHTMLFile(Constants.FILMS_HTML_PATH, peliculas);
     }
