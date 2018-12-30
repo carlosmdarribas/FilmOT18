@@ -17,11 +17,6 @@ public class View {
     private final Controller controller = new Controller();
     private final Scanner scanner = new Scanner(System.in);
 
-    /* TODO:
-          Comprobar la autenticidad de los scanner. (Int es Int, etc)
-          Revisar EXCEPCIONES
-     */
-
     public void runMenu(String[] menus) {
         boolean exit = false;
         String response;
@@ -617,7 +612,7 @@ public class View {
     private void removeActor() {
         int i = 1;
         List<Actor> actors = controller.getActors();
-        if (actors == null || actors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
+        if (actors == null || actors.isEmpty()) { System.err.println("No hay actores dados de alta para eliminar."); return; }
 
         System.out.println("Listado de directores: ");
         for (Actor actor : actors) {
