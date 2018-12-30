@@ -51,11 +51,11 @@ public class Film implements Serializable {
                 this.year,
                 this.duration,
                 this.country,
-                String.join(",", this.direction),
+                String.join(", ", this.direction),
                 this.guion,
                 this.music,
                 this.photography,
-                String.join(",", this.cast),
+                String.join(", ", this.cast),
                 this.producer,
                 this.genre,
                 this.synopsis);

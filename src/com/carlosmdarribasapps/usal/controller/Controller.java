@@ -295,7 +295,7 @@ public class Controller {
     Parte de EXPORTAR
      */
 
-    public List<String> exportDirectorsToColumns() throws IOException{
+    public void exportDirectorsToColumns() throws IOException{
         List<String>directors = filmLibrary.getDirectorsInColumns();
 
         if (directors == null){
@@ -304,7 +304,6 @@ public class Controller {
         }
 
         fileHandler.exportColumnedFile(Constants.DIRECTORS_COL_PATH, directors);
-        return null;
     }
 
 
