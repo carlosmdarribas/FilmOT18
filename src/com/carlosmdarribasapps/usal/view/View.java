@@ -260,50 +260,57 @@ public class View {
         }
 
         Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ", scanner);
+        if (index <= 0 || index > i)
+            System.err.println("ERROR. Índice incorrecto.");
+        else {
+            try {
+                Film selectedFilm = films.get(index - 1);
 
-        try {
-            Film selectedFilm = films.get(index-1);
+                System.out.print("Año de la película (actual " + selectedFilm.getYear() + " (Intro para valor actual)): ");
+                String change = scanner.nextLine();
+                if (!change.equals("") && CMUtils.isStringParsableToInt(change))
+                    selectedFilm.setYear(Integer.parseInt(change));
+                if (!CMUtils.isStringParsableToInt(change))
+                    System.err.println("ERROR. Elemento introducido inválido. Se mantendrá el original.");
 
-            System.out.print("Año de la película (actual " + selectedFilm.getYear() + " (Intro para valor actual)): ");
-            String change = scanner.nextLine();
-            if (!change.equals("") && CMUtils.isStringParsableToInt(change)) selectedFilm.setYear(Integer.parseInt(change));
-            if (!CMUtils.isStringParsableToInt(change)) System.err.println("ERROR. Elemento introducido inválido. Se mantendrá el original.");
+                System.out.print("Duración de la película (actual " + selectedFilm.getDuration() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("") && CMUtils.isStringParsableToInt(change))
+                    selectedFilm.setDuration(Integer.parseInt(change));
+                if (!CMUtils.isStringParsableToInt(change))
+                    System.err.println("ERROR. Elemento introducido inválido. Se mantendrá el original.");
 
-            System.out.print("Duración de la película (actual " + selectedFilm.getDuration() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("") && CMUtils.isStringParsableToInt(change)) selectedFilm.setDuration(Integer.parseInt(change));
-            if (!CMUtils.isStringParsableToInt(change)) System.err.println("ERROR. Elemento introducido inválido. Se mantendrá el original.");
+                System.out.print("País de la película (actual " + selectedFilm.getCountry() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setCountry(change);
 
-            System.out.print("País de la película (actual " + selectedFilm.getCountry() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setCountry(change);
+                System.out.print("Guionistas de la película (actual " + selectedFilm.getGuion() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setGuion(change);
 
-            System.out.print("Guionistas de la película (actual " + selectedFilm.getGuion() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setGuion(change);
+                System.out.print("Músicos de la película (actual " + selectedFilm.getMusic() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setMusic(change);
 
-            System.out.print("Músicos de la película (actual " + selectedFilm.getMusic() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setMusic(change);
+                System.out.print("Fotografía de la película (actual " + selectedFilm.getPhotography() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setPhotography(change);
 
-            System.out.print("Fotografía de la película (actual " + selectedFilm.getPhotography() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setPhotography(change);
+                System.out.print("Productor de la película (actual " + selectedFilm.getProducer() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setProducer(change);
 
-            System.out.print("Productor de la película (actual " + selectedFilm.getProducer() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setProducer(change);
+                System.out.print("Género de la película (actual " + selectedFilm.getGenre() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setGenre(change);
 
-            System.out.print("Género de la película (actual " + selectedFilm.getGenre() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setGenre(change);
+                System.out.print("Sinopsis de la película (actual " + selectedFilm.getSynopsis() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedFilm.setSynopsis(change);
 
-            System.out.print("Sinopsis de la película (actual " + selectedFilm.getSynopsis() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setSynopsis(change);
-
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            System.err.println("Selección inválida.");
+            } catch (IndexOutOfBoundsException exception) {
+                System.err.println("Selección inválida.");
+            }
         }
     }
 
