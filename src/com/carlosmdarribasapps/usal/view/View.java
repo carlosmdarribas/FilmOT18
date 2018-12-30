@@ -325,7 +325,7 @@ public class View {
 
             int i = 1;
             List<Film> films = controller.getFilms();
-            if (films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
+            if (films == null || films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
 
             System.out.println("Listado de películas: ");
             for (Film film : films) {
@@ -333,9 +333,10 @@ public class View {
             }
 
             int filmIndex = CMUtils.askForInteger("Introduzca el número de la película que desea mostrar: ", scanner);
-            if (filmIndex <= 0 || filmIndex > i)
+            if (filmIndex <= 0 || filmIndex > i) {
                 System.err.println("ERROR. Índice incorrecto.");
-            else {
+                return;
+            } else {
                 try {
                     selectedFilm = films.get(filmIndex - 1);
                 } catch (IndexOutOfBoundsException e) {
