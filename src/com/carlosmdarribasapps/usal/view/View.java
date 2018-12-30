@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class View {
-    Controller controller = new Controller();
-    Scanner scanner = new Scanner(System.in);
+    private final Controller controller = new Controller();
+    private final Scanner scanner = new Scanner(System.in);
 
     /* TODO:
           Comprobar la autenticidad de los scanner. (Int es Int, etc)
@@ -23,29 +23,29 @@ public class View {
      */
 
     public void runMenu(String[] menus) {
-        boolean salir = false;
-        String respuesta = null;
+        boolean exit = false;
+        String response;
 
         try {
             controller.arranque();
         } catch (IOException e) {
             System.err.println("ERROR: los datos no pudieron ser importados\nAbortando ejecucion.");
-            salir = true;
+            exit = true;
         }
 
-        while (!salir) {
+        while (!exit) {
             System.out.print(menus[0]);
             do {
-                respuesta = scanner.nextLine();
-            } while(respuesta.isEmpty());
+                response = scanner.nextLine();
+            } while(response.isEmpty());
 
-            switch(respuesta){
+            switch(response){
                 case "1": filesMenu(menus[1]);  break;
                 case "2": filmsMenu(menus[2]);  break;
                 case "3": directorMenu(menus[3]);break;
                 case "4": actorsMenu(menus[4]);  break;
                 case "5": listMenu(menus[5]);    break;
-                case "S": case "s": salir = true;  break;
+                case "S": case "s": exit = true;  break;
 
                 default: System.err.println("ERROR: Introduzca un caracter valido"); break;
             }
@@ -61,26 +61,26 @@ public class View {
     /**
         Relacionado con opción "ARCHIVOS"
      */
-    public void filesMenu(String menu) {
-        boolean salir = false;
-        String respuesta = null;
+    private void filesMenu(String menu) {
+        boolean exit = false;
+        String response;
 
         do {
             System.out.print(menu);
-            do {  respuesta = scanner.nextLine();   } while (respuesta.isEmpty());
+            do {  response = scanner.nextLine();   } while (response.isEmpty());
 
             /* 1) Exportar directores a encolumnado || 2) Exportar peliculas a documento HTML */
-            switch (respuesta){
+            switch (response){
 
                 case "1": exportDirectorsToColumns(); break;
                 case "2": exportFilmsToHTML();        break;
-                case "V": case "v": salir = true;         break;
+                case "V": case "v": exit = true;         break;
                 default: System.err.println("ERROR: Introduzca un caracter valido"); break;
             }
-        } while (!salir);
+        } while (!exit);
     }
 
-    public void exportDirectorsToColumns() {
+    private void exportDirectorsToColumns() {
         try {
             controller.exportDirectorsToColumns();
         } catch (IOException ex) {
@@ -88,7 +88,7 @@ public class View {
         }
     }
 
-    public void exportFilmsToHTML() {
+    private void exportFilmsToHTML() {
         try {
             controller.exportFilmsToHTML();
         } catch (IOException ex) {
@@ -100,31 +100,31 @@ public class View {
     /**
         Relacionada con la opción "PELICULAS"
      */
-    public void filmsMenu(String menu) {
-        boolean salir = false;
-        String respuesta = null;
+    private void filmsMenu(String menu) {
+        boolean exit = false;
+        String response;
 
         do {
             System.out.print(menu);
-            do {  respuesta = scanner.nextLine();   } while (respuesta.isEmpty());
+            do {  response = scanner.nextLine();   } while (response.isEmpty());
 
             /* 1) .append("\n\t1) Nueva película")
                 .append("\n\t2) Eliminar película")
                 .append("\n\t3) Modificar película")
                 .append("\n\t3) Mostrar información de película") */
-            switch(respuesta){
+            switch(response){
 
                 case "1": newFilm(); break;
                 case "2": removeFilm();        break;
                 case "3": modifyFilm();        break;
                 case "4": showFilmInformation();        break;
-                case "V": case "v": salir = true;         break;
+                case "V": case "v": exit = true;         break;
                 default: System.err.println("ERROR: Introduzca un caracter valido"); break;
             }
-        } while (!salir);
+        } while (!exit);
     }
 
-    public void newFilm() {
+    private void newFilm() {
         Film newFilm = new Film();
 
         System.out.println("\nSe va a proceder a crear una película nueva.\n");
@@ -134,14 +134,10 @@ public class View {
         newFilm.setName(scanner.nextLine());
 
         // Año
-        System.out.print("\tAño de creación de la película: ");
-        newFilm.setYear(scanner.nextInt());
+        newFilm.setYear(CMUtils.askForInteger("\tAño de creación de la película: ", scanner));
 
         // Duracion
-        System.out.print("\tDuración de la película: ");
-        newFilm.setDuration(scanner.nextInt());
-
-        scanner.nextLine(); // Cogemos el salto de linea.
+        newFilm.setDuration(CMUtils.askForInteger("\tDuración de la película: ", scanner));
 
         // País de origen
         System.out.print("\tPaís de la película: ");
@@ -161,7 +157,7 @@ public class View {
 
                 Director newDirector = new Director();
                 newDirector.setName(directorName);
-                newDirector.setFilms(new ArrayList<String>(Arrays.asList(newFilm.getName())));
+                newDirector.setFilms(new ArrayList<>(Collections.singletonList(newFilm.getName())));
                 controller.addEmptyDirectorToCollection(newDirector);
             } else {
                 // El director existe. Por lo que le achacamos la película.
@@ -202,7 +198,7 @@ public class View {
 
                 Actor newActor = new Actor();
                 newActor.setName(actorName);
-                newActor.setFilms(new ArrayList<String>(Arrays.asList(newFilm.getName())));
+                newActor.setFilms(new ArrayList<>(Collections.singletonList(newFilm.getName())));
                 controller.addEmptyActorToCollection(newActor);
             } else {
                 // El director existe. Por lo que le achacamos la película.
@@ -231,7 +227,7 @@ public class View {
         controller.addFilmToCollection(newFilm);
     }
 
-    public void removeFilm() {
+    private void removeFilm() {
         int i = 1;
         List<Film> films = controller.getFilms();
         if (films.isEmpty()) { System.err.println("No hay películas para eliminar."); return; }
@@ -241,10 +237,7 @@ public class View {
             System.out.println("\t["+(i++)+"] " + film.getName());
         }
 
-        System.out.print("Introduzca el número de película (entre corchetes) a borrar: ");
-        Integer deleteIndex = scanner.nextInt();
-
-
+        int deleteIndex = CMUtils.askForInteger("Introduzca el número de película (entre corchetes) a borrar: ", scanner);
         if (deleteIndex <= 0 || deleteIndex > i)
             System.err.println("ERROR. Índice incorrecto.");
         else {
@@ -256,7 +249,7 @@ public class View {
         }
     }
 
-    public void modifyFilm() {
+    private void modifyFilm() {
         int i = 1;
         List<Film> films = controller.getFilms();
         if (films == null || films.isEmpty()) { System.err.println("No hay películas dadas de alta."); return; }
@@ -266,10 +259,7 @@ public class View {
             System.out.println("\t["+(i++)+"] " + film.getName());
         }
 
-        System.out.print("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ");
-        Integer index = scanner.nextInt();
-
-        scanner.nextLine(); // Liberamos buffer.
+        Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ", scanner);
 
         try {
             Film selectedFilm = films.get(index-1);
@@ -315,7 +305,7 @@ public class View {
         }
     }
 
-    public void showFilmInformation() {
+    private void showFilmInformation() {
         System.out.print("¿Desea seleccionar la película por lista o nombre? L/N");
         String exitAsk = scanner.nextLine();
 
@@ -333,8 +323,7 @@ public class View {
                 System.out.println("\t["+(i++)+"] " + film.getName());
             }
 
-            System.out.print("Introduzca el número de la película que desea mostrar: ");
-            Integer filmIndex = scanner.nextInt();
+            int filmIndex = CMUtils.askForInteger("Introduzca el número de la película que desea mostrar: ", scanner);
 
             selectedFilm = films.get(filmIndex-1);
         } else {
@@ -354,37 +343,38 @@ public class View {
             }
         }
 
+        System.out.printf(Constants.FILM_TABLE_FORMAT+"\n", "NOMBRE", "AÑO", "DURACIÓN", "PAÍS", "DIRECCIÓN", "GUIÓN", "MÚSICA", "FOTOGRAFÍA", "REPARTO", "PRODUCTORA", "GÉNERO", "SINOPSIS");
         System.out.printf(Constants.FILM_TABLE_FORMAT, selectedFilm.getName(), selectedFilm.getYear(), selectedFilm.getDuration(), selectedFilm.getCountry(),
-                selectedFilm.getDirection().toString(), selectedFilm.getGuion(), selectedFilm.getMusic(), selectedFilm.getPhotography(), selectedFilm.getCast().toString(),
-                selectedFilm.getProducer(), selectedFilm.getGenre(), selectedFilm.getSynopsis());
+                String.join(", ", selectedFilm.getDirection()), selectedFilm.getGuion(), selectedFilm.getMusic(), selectedFilm.getPhotography(),
+                String.join(", ", selectedFilm.getCast()), selectedFilm.getProducer(), selectedFilm.getGenre(), selectedFilm.getSynopsis());
     }
 
     /**
      Relacionada con la opción "DIRECTORES"
      */
-    public void directorMenu(String menu) {
-        boolean salir = false;
-        String respuesta = null;
+    private void directorMenu(String menu) {
+        boolean exit = false;
+        String response;
 
         do {
             System.out.print(menu);
-            do {  respuesta = scanner.nextLine();   } while (respuesta.isEmpty());
+            do {  response = scanner.nextLine();   } while (response.isEmpty());
 
             /*  1) Nuevo director
                 2) Eliminar director
                 3) Modificar director */
-            switch(respuesta){
+            switch(response){
 
                 case "1": newDirector(); break;
                 case "2": removeDirector();        break;
                 case "3": modifyDirector();        break;
-                case "V": case "v": salir = true;         break;
+                case "V": case "v": exit = true;         break;
                 default: System.err.println("ERROR: Introduzca un caracter valido"); break;
             }
-        } while (!salir);
+        } while (!exit);
     }
 
-    public void newDirector() {
+    private void newDirector() {
         /*
             private String name;
             private Date birthdate;
@@ -402,11 +392,16 @@ public class View {
         director.setName(scanner.nextLine());
 
         // Fecha de nacimiento
-        boolean exit = true;
+        boolean exit;
         do {
             System.out.print("Fecha de nacimiento del director, en formato dd/MM/yyyy: ");
 
-            director.setBirthdate(CMUtils.stringToDate(scanner.nextLine(), "dd-MM-yyyy"));
+            Date birthdate = CMUtils.stringToDate(scanner.nextLine(), "dd-MM-yyyy");
+            if (birthdate == null) exit = false;
+            else {
+                director.setBirthdate(birthdate);
+                exit = true;
+            }
 
         } while (!exit);
 
@@ -436,10 +431,7 @@ public class View {
         controller.addEmptyDirectorToCollection(director);
     }
 
-    public void removeDirector() {
-        /**
-         * TODO: Comprobar si tiene (o no) películas.
-         */
+    private void removeDirector() {
         int i = 1;
         List<Director> directors = controller.getDirectors();
         if (directors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
@@ -449,22 +441,25 @@ public class View {
             System.out.println("\t["+(i++)+"] " + director.getName());
         }
 
-        System.out.print("Introduzca el número (entre corchetes) que corresponde al director a borrar: ");
-        Integer deleteIndex = scanner.nextInt();
-
+        int deleteIndex = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a borrar: ", scanner);
 
         if (deleteIndex <= 0 || deleteIndex > i)
             System.err.println("ERROR. Índice incorrecto.");
         else {
             try {
-                controller.removeDirector(directors.get(deleteIndex-1));
+                Director removeDirector = directors.get(deleteIndex-1);
+                if (removeDirector.getFilms().isEmpty()) {
+                    controller.removeDirector(removeDirector);
+                } else {
+                    System.err.println("ERROR. El director tiene películas asociadas.");
+                }
             } catch (IndexOutOfBoundsException exp) {
                 System.err.println("ERROR. Índice incorrecto.");
             }
         }
     }
 
-    public void modifyDirector() {
+    private void modifyDirector() {
         int i = 1;
         List<Director> directors = controller.getDirectors();
         if (directors == null || directors.isEmpty()) { System.err.println("No hay directores dados de alta."); return; }
@@ -474,10 +469,7 @@ public class View {
             System.out.println("\t["+(i++)+"] " + director.getName());
         }
 
-        System.out.print("Introduzca el número (entre corchetes) que corresponde al director a modificar: ");
-        Integer index = scanner.nextInt();
-
-        scanner.nextLine(); // Liberamos buffer.
+        Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
 
         try {
             /*
@@ -525,31 +517,31 @@ public class View {
     /**
      Relacionada con la opción "ACTORES"
      */
-    public void actorsMenu(String menu) {
-        boolean salir = false;
-        String respuesta = null;
+    private void actorsMenu(String menu) {
+        boolean exit = false;
+        String response;
 
         do {
             System.out.print(menu);
-            do {  respuesta = scanner.nextLine();   } while (respuesta.isEmpty());
+            do {  response = scanner.nextLine();   } while (response.isEmpty());
 
             /*  .append("\n\t1) Nuevo actor")
                 .append("\n\t2) Eliminar actor")
                 .append("\n\t3) Modificar actor")
                 .append("\n\t4) Listar películas de un actor") */
-            switch(respuesta){
+            switch(response){
 
                 case "1": newActor();       break;
                 case "2": removeActor();    break;
                 case "3": modifyActor();    break;
                 case "4": listActorMovies();    break;
-                case "V": case "v": salir = true;         break;
+                case "V": case "v": exit = true;         break;
                 default: System.err.println("ERROR: Introduzca un caracter valido"); break;
             }
-        } while (!salir);
+        } while (!exit);
     }
 
-    public void newActor() {
+    private void newActor() {
         System.out.println("Introduzca los datos del actor: ");
 
         Actor actor = new Actor();
@@ -580,10 +572,7 @@ public class View {
         actor.setNationality(scanner.nextLine());
 
         // Ocupación
-        System.out.print("Año de debut del actor: ");
-        actor.setDebutYear(scanner.nextInt());
-
-        scanner.nextLine(); // Limpiamos el buffer
+        actor.setDebutYear(CMUtils.askForInteger("Año de debut del actor: ", scanner));
 
         // Películas del actor.
         List<String> films = new ArrayList<>();
@@ -603,11 +592,7 @@ public class View {
         controller.addActorToCollection(actor);
     }
 
-    public void removeActor() {
-
-        /**
-         * TODO: Comprobar si tiene (o no) películas.
-         */
+    private void removeActor() {
         int i = 1;
         List<Actor> actors = controller.getActors();
         if (actors == null || actors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
@@ -617,22 +602,24 @@ public class View {
             System.out.println("\t["+(i++)+"] " + actor.getName());
         }
 
-        System.out.print("Introduzca el número (entre corchetes) que corresponde al actor a borrar: ");
-        Integer deleteIndex = scanner.nextInt();
-
-
+        int deleteIndex = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al actor a borrar: ", scanner);
         if (deleteIndex <= 0 || deleteIndex > i)
             System.err.println("ERROR. Índice incorrecto.");
         else {
             try {
-                controller.removeActor(actors.get(deleteIndex-1));
+                Actor removeActor = actors.get(deleteIndex-1);
+                if (removeActor.getFilms().isEmpty()) {
+                    controller.removeActor(removeActor);
+                } else {
+                    System.err.println("ERROR. El actor tiene películas asociadas.");
+                }
             } catch (IndexOutOfBoundsException exp) {
                 System.err.println("ERROR. Índice incorrecto.");
             }
         }
     }
 
-    public void modifyActor() {
+    private void modifyActor() {
         int i = 1;
         List<Actor> actors = controller.getActors();
         if (actors == null || actors.isEmpty()) { System.err.println("No hay actores dados de alta."); return; }
@@ -642,10 +629,7 @@ public class View {
             System.out.println("\t["+(i++)+"] " + actor.getName());
         }
 
-        System.out.print("Introduzca el número (entre corchetes) que corresponde al director a modificar: ");
-        Integer index = scanner.nextInt();
-
-        scanner.nextLine(); // Liberamos buffer.
+        Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
 
         try {
             /*
@@ -679,11 +663,7 @@ public class View {
             change = scanner.nextLine();
             if (!change.equals("")) selectedActor.setNationality(change);
 
-            System.out.print("Año de debut del actor (actual " + selectedActor.getDebutYear() + " (Intro para valor actual)): ");
-            Integer year = scanner.nextInt();
-
-            scanner.nextLine(); // Limpiamos buffer;
-
+            int year = CMUtils.askForInteger("Año de debut del actor (actual " + selectedActor.getDebutYear() + " (Intro para valor actual)): ", scanner);
             if (!change.equals("")) selectedActor.setDebutYear(year);
 
 
@@ -692,7 +672,7 @@ public class View {
         }
     }
 
-    public void listActorMovies() {
+    private void listActorMovies() {
         System.out.print("¿Desea seleccionar el actor por lista o nombre? L/N");
         String exitAsk = scanner.nextLine();
 
@@ -710,8 +690,7 @@ public class View {
                 System.out.println("\t["+(i++)+"] " + actor.getName());
             }
 
-            System.out.print("Introduzca el número del actor sobre el que desea mostrar: ");
-            Integer index = scanner.nextInt();
+            int index = CMUtils.askForInteger("Introduzca el número del actor sobre el que desea mostrar: ", scanner);
 
             try {
                 selectedActor = actors.get(index-1);
@@ -735,7 +714,13 @@ public class View {
             }
         }
 
+        // Comprobamos que tiene películas.
+        if (selectedActor.getFilms() == null || selectedActor.getFilms().isEmpty()) {
+            System.err.println("ERROR. El actor seleccionado no tiene películas.");
+            return;
+        }
 
+        System.out.printf(Constants.FILM_ACTOR_TABLE_FORMAT+"\n", "TÍTULO", "AÑO", "DURACION", "PAÍS", "GÉNERO");
         for (String filmName : selectedActor.getFilms()) {
             System.out.println(filmName);
 
@@ -751,44 +736,47 @@ public class View {
     /**
      Relacionada con la opción "LISTADO"
      */
-    public void listMenu(String menu) {
-        boolean salir = false;
-        String respuesta = null;
+    private void listMenu(String menu) {
+        boolean exit = false;
+        String response;
 
         do {
             System.out.print(menu);
-            do {  respuesta = scanner.nextLine();   } while (respuesta.isEmpty());
+            do {  response = scanner.nextLine();   } while (response.isEmpty());
 
             /*  1) Mostrar películas alfabeticamente
                 2) Mostrar directores por nacionalidad y edad
                 3) Mostrar actores por debut y nombre */
-            switch(respuesta){
+            switch(response){
 
                 case "1": listFilmsAlph(); break;
                 case "2": listDirectorsNac_Age();        break;
                 case "3": listActorsName_Debut();        break;
-                case "V": case "v": salir = true;         break;
+                case "V": case "v": exit = true;         break;
                 default: System.err.println("ERROR: Introduzca un caracter valido"); break;
             }
-        } while (!salir);
+        } while (!exit);
     }
 
-    public void listFilmsAlph() {
+    private void listFilmsAlph() {
         if (controller.getFilms() == null ||controller.getFilms().isEmpty()) {
             System.err.println("No hay regitros que mostrar");
             return;
         }
 
+        System.out.printf(Constants.FILM_ACTOR_TABLE_FORMAT+"\n", "TÍTULO", "AÑO", "DURACION", "PAÍS", "GÉNERO");
         for (Film film : controller.getSortedFilmsAlph()) {
             System.out.printf(Constants.FILM_ACTOR_TABLE_FORMAT+"\n", film.getName(), film.getYear(), film.getDuration(), film.getCountry(), film.getGenre());
         }
     }
 
-    public void listDirectorsNac_Age() {
+    private void listDirectorsNac_Age() {
         if (controller.getDirectors() == null ||controller.getDirectors().isEmpty()) {
             System.err.println("No hay regitros que mostrar");
             return;
         }
+
+        System.out.printf(Constants.DIRECTOR_TABLE_FORMAT+"\n", "NOMBRE", "FECHA NACIMIENTO", "NACIONALIDAD", "OCUPACIÓN", "PELÍCULAS");
 
         for (Director director : controller.getSortedFilmsNationalityAge()) {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -799,7 +787,14 @@ public class View {
         }
     }
 
-    public void listActorsName_Debut() {
+    private void listActorsName_Debut() {
+        if (controller.getActors() == null ||controller.getActors().isEmpty()) {
+            System.err.println("No hay regitros que mostrar");
+            return;
+        }
+
+        System.out.printf(Constants.ACTOR_TABLE_FORMAT+"\n", "NOMBRE", "FECHA NACIMIENTO", "NACIONALIDAD", "AÑO DEBUT", "PELÍCULAS");
+
         for (Actor actor : controller.getSortedActorsDebutYearAndName()) {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 

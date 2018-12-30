@@ -301,6 +301,8 @@ public class Controller {
         if (directors == null){
             directors = new ArrayList<>();
             directors.add("No data available");
+        } else {
+            directors.add(0, String.format(Constants.DIRECTOR_TABLE_FORMAT+"\n", "NOMBRE", "FECHA NACIMIENTO", "NACIONALIDAD", "OCUPACIÓN", "PELÍCULAS"));
         }
 
         fileHandler.exportColumnedFile(Constants.DIRECTORS_COL_PATH, directors);

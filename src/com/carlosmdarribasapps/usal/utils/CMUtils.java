@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class CMUtils {
     public static Date stringToDate(String dateString, String format) {
@@ -26,5 +28,23 @@ public class CMUtils {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static int askForInteger(String message, Scanner scanner) {
+        boolean exit;
+
+        do {
+            System.out.print(message);
+            String input = scanner.nextLine();
+            if (isStringParsableToInt(input)) {
+                return Integer.parseInt(input);
+            } else {
+                System.err.println("Error. Solo se deben introducir enteros.");
+                exit = false;
+            }
+
+        } while (!exit);
+
+        return 0;
     }
 }
