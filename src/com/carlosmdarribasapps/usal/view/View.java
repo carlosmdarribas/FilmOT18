@@ -266,11 +266,13 @@ public class View {
 
             System.out.print("Año de la película (actual " + selectedFilm.getYear() + " (Intro para valor actual)): ");
             String change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setYear(Integer.parseInt(change));
+            if (!change.equals("") && CMUtils.isStringParsableToInt(change)) selectedFilm.setYear(Integer.parseInt(change));
+            if (!CMUtils.isStringParsableToInt(change)) System.err.println("ERROR. Elemento introducido inválido. Se mantendrá el original.");
 
             System.out.print("Duración de la película (actual " + selectedFilm.getDuration() + " (Intro para valor actual)): ");
             change = scanner.nextLine();
-            if (!change.equals("")) selectedFilm.setDuration(Integer.parseInt(change));
+            if (!change.equals("") && CMUtils.isStringParsableToInt(change)) selectedFilm.setDuration(Integer.parseInt(change));
+            if (!CMUtils.isStringParsableToInt(change)) System.err.println("ERROR. Elemento introducido inválido. Se mantendrá el original.");
 
             System.out.print("País de la película (actual " + selectedFilm.getCountry() + " (Intro para valor actual)): ");
             change = scanner.nextLine();
