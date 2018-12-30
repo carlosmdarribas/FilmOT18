@@ -25,12 +25,10 @@ public class Controller {
      * Realizamos las comprobaciones y las secuencias de arranque.
      */
     public void arranque() throws IOException {
-        List<String> readedFilms;
 
         // Comprobamos si existe el binario "peliculas.bin" en la carpeta.
         if (CMFileHandler.checkIfFileExists(Constants.FILMS_BIN_PATH)) {
             // El archivo existe, lo leemos de BIN.
-            System.out.println("[DEBUG] Existe el BIN de peliculas. Leemos de él.");
 
             try {
                 filmLibrary.setFilms(fileHandler.binToFilms(Constants.FILMS_BIN_PATH));
@@ -49,10 +47,7 @@ public class Controller {
                     Film localFilm = new Film();
 
                     String[] directionString = currentLine[4].split("\t");
-                    List<String> directorArray = new ArrayList<String>();
-                    for (String directorName : directionString) {
-                        directorArray.add(directorName);
-                    }
+                    List<String> directorArray = new ArrayList<>(Arrays.asList(directionString));
 
                     String[] cast = currentLine[8].split("\t");
 
@@ -62,7 +57,7 @@ public class Controller {
 
                         Actor newActor = new Actor();
                         newActor.setName(actorName);
-                        newActor.setFilms(new ArrayList<String>(Arrays.asList(currentLine[0])));
+                        newActor.setFilms(new ArrayList<>(Collections.singletonList(currentLine[0])));
                         this.addEmptyActorToCollection(newActor);
                     }
 
@@ -88,12 +83,11 @@ public class Controller {
 
         }
 
-        /**
+        /*
          * Directores
          */
         if (CMFileHandler.checkIfFileExists(Constants.DIRECTORS_BIN_PATH)) {
             // El archivo existe, lo leemos de BIN.
-            System.out.println("[DEBUG] Existe el BIN de directores. Leemos de él.");
 
             try {
                 filmLibrary.setDirectors(fileHandler.binToDirectors(Constants.DIRECTORS_BIN_PATH));
@@ -102,7 +96,6 @@ public class Controller {
             }
 
         } else if (CMFileHandler.checkIfFileExists(Constants.DIRECTORS_TXT_PATH)) {
-            System.out.println("[DEBUG] Leemos del TXT al no existir el de binario.");
 
             try {
                 // Esto devuelve un array de String, que son cada una de las lineas.
@@ -117,10 +110,7 @@ public class Controller {
                     director.setJob(currentLine[3]);
 
                     String[] allFilms = currentLine[4].split("\t");
-                    List<String> filmsArray = new ArrayList<String>();
-                    for (String filmName : allFilms) {
-                        filmsArray.add(filmName);
-                    }
+                    List<String> filmsArray = new ArrayList<>(Arrays.asList(allFilms));
                     director.setFilms(filmsArray);
 
                     this.addEmptyDirectorToCollection(director);
@@ -134,12 +124,11 @@ public class Controller {
             }
         }
 
-        /**
+        /*
          * Actores
          */
         if (CMFileHandler.checkIfFileExists(Constants.ACTORS_BIN_PATH)) {
             // El archivo existe, lo leemos de BIN.
-            System.out.println("[DEBUG] Existe el BIN de actores. Leemos de él.");
 
             try {
                 filmLibrary.setActors(fileHandler.binToActors(Constants.ACTORS_BIN_PATH));
@@ -162,10 +151,7 @@ public class Controller {
                     actor.setDebutYear((CMUtils.isStringParsableToInt(currentLine[3]) || currentLine[3].equals("0")) ? Integer.parseInt(currentLine[3]) : -1);
 
                     String[] allFilms = currentLine[4].split("\t");
-                    List<String> filmsArray = new ArrayList<String>();
-                    for (String filmName : allFilms) {
-                        filmsArray.add(filmName);
-                    }
+                    List<String> filmsArray = new ArrayList<>(Arrays.asList(allFilms));
                     actor.setFilms(filmsArray);
 
                     this.addEmptyActorToCollection(actor);
@@ -184,15 +170,6 @@ public class Controller {
         fileHandler.directorsToBin(Constants.DIRECTORS_BIN_PATH, filmLibrary.getDirectors());
     }
 
-    public boolean checkIfDirectorExists(String directorName) {
-        if (filmLibrary.getDirectors() == null || filmLibrary.getDirectors().isEmpty()) return false;
-
-        for (Director director : filmLibrary.getDirectors())
-            if (director.getName().equals(directorName)) return true;
-
-        return false;
-    }
-
     public Director getDirectorFromCollectionWithName(String directorName) {
         if (this.getDirectors() == null || this.getDirectors().isEmpty()) return null;
         for (Director director : this.getDirectors()) if (director.getName().equals(directorName)) return director;
@@ -205,15 +182,6 @@ public class Controller {
         for (Actor actor : this.getActors()) if (actor.getName().equals(actorName)) return actor;
 
         return null;
-    }
-
-    public boolean checkIfActorExists(String actorName) {
-        if (filmLibrary.getActors() == null || filmLibrary.getActors().isEmpty()) return false;
-
-        for (Actor actors : filmLibrary.getActors())
-            if (actors.getName().equals(actorName)) return true;
-
-        return false;
     }
 
     public void addFilmToCollection(Film film) {
