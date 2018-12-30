@@ -230,7 +230,7 @@ public class View {
     private void removeFilm() {
         int i = 1;
         List<Film> films = controller.getFilms();
-        if (films.isEmpty()) { System.err.println("No hay películas para eliminar."); return; }
+        if (films == null || films.isEmpty()) { System.err.println("No hay películas para eliminar."); return; }
 
         System.out.println("Listado de películas: ");
         for (Film film : films) {
