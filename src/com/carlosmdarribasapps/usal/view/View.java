@@ -341,6 +341,7 @@ public class View {
                     selectedFilm = films.get(filmIndex - 1);
                 } catch (IndexOutOfBoundsException e) {
                     System.err.println("ERROR. Indice incorrecto");
+                    return;
                 }
             }
         } else {
