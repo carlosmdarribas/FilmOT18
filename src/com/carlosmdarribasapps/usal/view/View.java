@@ -320,12 +320,13 @@ public class View {
 
         Film selectedFilm = null;
 
+        List<Film> films = controller.getFilms();
+        if (films == null || films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
+
         if ("Ll".contains(exitAsk)) {
             // Mostramos la lista.
 
             int i = 1;
-            List<Film> films = controller.getFilms();
-            if (films == null || films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
 
             System.out.println("Listado de películas: ");
             for (Film film : films) {
@@ -701,13 +702,13 @@ public class View {
         String exitAsk = scanner.nextLine();
 
         Actor selectedActor = null;
+        List<Actor> actors = controller.getActors();
+        if (actors == null || actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
 
         if ("Ll".contains(exitAsk)) {
             // Mostramos la lista.
 
             int i = 1;
-            List<Actor> actors = controller.getActors();
-            if (actors == null || actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
 
             System.out.println("Listado de actores: ");
             for (Actor actor : actors) {
