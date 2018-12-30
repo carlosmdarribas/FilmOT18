@@ -315,13 +315,13 @@ public class View {
     }
 
     private void showFilmInformation() {
+        List<Film> films = controller.getFilms();
+        if (films == null || films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
+
         System.out.print("¿Desea seleccionar la película por lista o nombre? L/N");
         String exitAsk = scanner.nextLine();
 
         Film selectedFilm = null;
-
-        List<Film> films = controller.getFilms();
-        if (films == null || films.isEmpty()) { System.err.println("No hay películas a mostrar."); return; }
 
         if ("Ll".contains(exitAsk)) {
             // Mostramos la lista.
@@ -453,7 +453,7 @@ public class View {
     private void removeDirector() {
         int i = 1;
         List<Director> directors = controller.getDirectors();
-        if (directors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
+        if (directors == null || directors.isEmpty()) { System.err.println("No hay directores dados de alta para eliminar."); return; }
 
         System.out.println("Listado de directores: ");
         for (Director director : directors) {
@@ -698,12 +698,13 @@ public class View {
     }
 
     private void listActorMovies() {
+        List<Actor> actors = controller.getActors();
+        if (actors == null || actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
+
         System.out.print("¿Desea seleccionar el actor por lista o nombre? L/N");
         String exitAsk = scanner.nextLine();
 
         Actor selectedActor = null;
-        List<Actor> actors = controller.getActors();
-        if (actors == null || actors.isEmpty()) { System.err.println("No hay actores a mostrar."); return; }
 
         if ("Ll".contains(exitAsk)) {
             // Mostramos la lista.
