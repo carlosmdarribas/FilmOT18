@@ -319,22 +319,8 @@ public class Controller {
             peliculas.add("<TR><TD><STRONG>No films available</STRONG></TD></TR>");
         }
 
-        peliculas.add(0,String.format("<TR><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH><TH>%s</TH></TR>",
-                "Nombre",
-                "Año",
-                "Duración",
-                "País",
-                "Dirección",
-                "Guión",
-                "Música",
-                "Fotografía",
-                "Reparto",
-                "Productor",
-                "Género",
-                "Sinopsis"));
-
-        peliculas.add(0, "<table>");
-        peliculas.add("</table>");
+        peliculas.add(0, Constants.HTML_TABLE_HEADER);
+        peliculas.add("</tbody></table>");
 
         fileHandler.exportHTMLFile(Constants.FILMS_HTML_PATH, peliculas);
     }
