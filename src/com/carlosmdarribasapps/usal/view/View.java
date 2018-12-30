@@ -774,12 +774,22 @@ public class View {
     }
 
     public void listFilmsAlph() {
+        if (controller.getFilms() == null ||controller.getFilms().isEmpty()) {
+            System.err.println("No hay regitros que mostrar");
+            return;
+        }
+
         for (Film film : controller.getSortedFilmsAlph()) {
             System.out.printf(Constants.FILM_ACTOR_TABLE_FORMAT+"\n", film.getName(), film.getYear(), film.getDuration(), film.getCountry(), film.getGenre());
         }
     }
 
     public void listDirectorsNac_Age() {
+        if (controller.getDirectors() == null ||controller.getDirectors().isEmpty()) {
+            System.err.println("No hay regitros que mostrar");
+            return;
+        }
+
         for (Director director : controller.getSortedFilmsNationalityAge()) {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
