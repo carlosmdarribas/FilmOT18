@@ -333,8 +333,15 @@ public class View {
             }
 
             int filmIndex = CMUtils.askForInteger("Introduzca el número de la película que desea mostrar: ", scanner);
-
-            selectedFilm = films.get(filmIndex-1);
+            if (filmIndex <= 0 || filmIndex > i)
+                System.err.println("ERROR. Índice incorrecto.");
+            else {
+                try {
+                    selectedFilm = films.get(filmIndex - 1);
+                } catch (IndexOutOfBoundsException e) {
+                    System.err.println("ERROR. Indice incorrecto");
+                }
+            }
         } else {
             System.out.print("Nombre de la película: ");
             String filmName = scanner.nextLine();
