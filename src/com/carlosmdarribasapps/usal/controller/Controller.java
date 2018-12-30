@@ -115,7 +115,7 @@ public class Controller {
 
                     this.addEmptyDirectorToCollection(director);
                 }
-            } catch (ArrayIndexOutOfBoundsException indexOut) {
+            } catch (IndexOutOfBoundsException indexOut) {
                 System.err.println("ERROR. Elementos insuficientes.");
             } catch (IllegalArgumentException e) {
                 System.err.println("ERROR. Formato de elementos ilegal.");

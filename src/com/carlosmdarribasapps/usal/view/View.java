@@ -259,7 +259,7 @@ public class View {
             System.out.println("\t["+(i++)+"] " + film.getName());
         }
 
-        Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ", scanner);
+        int index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ", scanner);
         if (index <= 0 || index > i)
             System.err.println("ERROR. Índice incorrecto.");
         else {
@@ -478,47 +478,50 @@ public class View {
             System.out.println("\t["+(i++)+"] " + director.getName());
         }
 
-        Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
-
-        try {
+        int index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
+        if (index <= 0 || index > i)
+            System.err.println("ERROR. Índice incorrecto.");
+        else {
+            try {
             /*
                 private Date birthdate;
                 private String nationality;
                 private String job;
             */
 
-            Director selectedDirector = directors.get(index-1);
+                Director selectedDirector = directors.get(index - 1);
 
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
-            System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedDirector.getBirthdate()) + " (Intro para valor actual)): ");
-            String change = scanner.nextLine();
-            if (!change.equals("")) {
-                boolean exit = true;
-                do {
-                    DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    try {
-                        Date date = sourceFormat.parse(change);
-                        selectedDirector.setBirthdate(date);
+                System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedDirector.getBirthdate()) + " (Intro para valor actual)): ");
+                String change = scanner.nextLine();
+                if (!change.equals("")) {
+                    boolean exit = true;
+                    do {
+                        DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            Date date = sourceFormat.parse(change);
+                            selectedDirector.setBirthdate(date);
 
-                    } catch (ParseException exception) {
-                        System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
-                        exit = false;
-                    }
-                } while (!exit);
+                        } catch (ParseException exception) {
+                            System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
+                            exit = false;
+                        }
+                    } while (!exit);
+                }
+
+                System.out.print("Nacionalidad del director (actual " + selectedDirector.getNationality() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedDirector.setNationality(change);
+
+                System.out.print("Ocupación del director (actual " + selectedDirector.getJob() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedDirector.setJob(change);
+
+
+            } catch (IndexOutOfBoundsException exception) {
+                System.err.println("Selección inválida.");
             }
-
-            System.out.print("Nacionalidad del director (actual " + selectedDirector.getNationality() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedDirector.setNationality(change);
-
-            System.out.print("Ocupación del director (actual " + selectedDirector.getJob() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedDirector.setJob(change);
-
-
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            System.err.println("Selección inválida.");
         }
     }
 
@@ -638,46 +641,49 @@ public class View {
             System.out.println("\t["+(i++)+"] " + actor.getName());
         }
 
-        Integer index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
-
-        try {
+        int index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
+        if (index <= 0 || index > i)
+            System.err.println("ERROR. Índice incorrecto.");
+        else {
+            try {
             /*
                 private Date birthdate;
                 private String nationality;
                 private String job;
             */
 
-            Actor selectedActor = actors.get(index-1);
+                Actor selectedActor = actors.get(index - 1);
 
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
-            System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedActor.getBirthdate()) + " (Intro para valor actual)): ");
-            String change = scanner.nextLine();
-            if (!change.equals("")) {
-                boolean exit = true;
-                do {
-                    DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    try {
-                        Date date = sourceFormat.parse(change);
-                        selectedActor.setBirthdate(date);
+                System.out.print("Fecha de nacimiento del director en formato dd/MM/yyyy (actual " + df.format(selectedActor.getBirthdate()) + " (Intro para valor actual)): ");
+                String change = scanner.nextLine();
+                if (!change.equals("")) {
+                    boolean exit = true;
+                    do {
+                        DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            Date date = sourceFormat.parse(change);
+                            selectedActor.setBirthdate(date);
 
-                    } catch (ParseException exception) {
-                        System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
-                        exit = false;
-                    }
-                } while (!exit);
+                        } catch (ParseException exception) {
+                            System.err.println("Fecha introducida incorrecta. Introduzcala correctamente.");
+                            exit = false;
+                        }
+                    } while (!exit);
+                }
+
+                System.out.print("Nacionalidad del director (actual " + selectedActor.getNationality() + " (Intro para valor actual)): ");
+                change = scanner.nextLine();
+                if (!change.equals("")) selectedActor.setNationality(change);
+
+                int year = CMUtils.askForInteger("Año de debut del actor (actual " + selectedActor.getDebutYear() + " (Intro para valor actual)): ", scanner);
+                if (!change.equals("")) selectedActor.setDebutYear(year);
+
+
+            } catch (IndexOutOfBoundsException exception) {
+                System.err.println("Selección inválida.");
             }
-
-            System.out.print("Nacionalidad del director (actual " + selectedActor.getNationality() + " (Intro para valor actual)): ");
-            change = scanner.nextLine();
-            if (!change.equals("")) selectedActor.setNationality(change);
-
-            int year = CMUtils.askForInteger("Año de debut del actor (actual " + selectedActor.getDebutYear() + " (Intro para valor actual)): ", scanner);
-            if (!change.equals("")) selectedActor.setDebutYear(year);
-
-
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            System.err.println("Selección inválida.");
         }
     }
 
@@ -700,11 +706,14 @@ public class View {
             }
 
             int index = CMUtils.askForInteger("Introduzca el número del actor sobre el que desea mostrar: ", scanner);
-
-            try {
-                selectedActor = actors.get(index-1);
-            } catch (IndexOutOfBoundsException exp) {
+            if (index <= 0 || index > i)
                 System.err.println("ERROR. Índice incorrecto.");
+            else {
+                try {
+                    selectedActor = actors.get(index - 1);
+                } catch (IndexOutOfBoundsException exp) {
+                    System.err.println("ERROR. Índice incorrecto.");
+                }
             }
         } else {
             System.out.print("Nombre del actor: ");
