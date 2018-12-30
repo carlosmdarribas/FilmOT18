@@ -67,8 +67,8 @@ public class Controller {
                     }
 
                     localFilm.setName(currentLine[0]);
-                    localFilm.setYear(Integer.parseInt(currentLine[1]));
-                    localFilm.setDuration(Integer.parseInt(currentLine[2]));
+                    localFilm.setYear((CMUtils.isStringParsableToInt(currentLine[1])) ? Integer.parseInt(currentLine[1]) : 0);
+                    localFilm.setDuration((CMUtils.isStringParsableToInt(currentLine[2])) ? Integer.parseInt(currentLine[2]) : 0);
                     localFilm.setCountry(currentLine[3]);
                     localFilm.setDirection(directorArray);
                     localFilm.setGuion(currentLine[5]);
