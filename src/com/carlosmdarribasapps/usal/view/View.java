@@ -233,9 +233,9 @@ public class View {
         }
 
         int deleteIndex = CMUtils.askForInteger("Introduzca el número de película (entre corchetes) a borrar: ", scanner);
-        if (deleteIndex <= 0 || deleteIndex > i)
+        if (deleteIndex <= 0 || deleteIndex > i) {
             System.err.println("ERROR. Índice incorrecto.");
-        else {
+        } else {
             try {
                 controller.removeFilm(films.get(deleteIndex-1));
             } catch (IndexOutOfBoundsException exp) {
@@ -255,9 +255,9 @@ public class View {
         }
 
         int index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde a la película a modificar: ", scanner);
-        if (index <= 0 || index > i)
+        if (index <= 0 || index > i) {
             System.err.println("ERROR. Índice incorrecto.");
-        else {
+        }else {
             try {
                 Film selectedFilm = films.get(index - 1);
 
@@ -457,18 +457,21 @@ public class View {
 
         int deleteIndex = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a borrar: ", scanner);
 
-        if (deleteIndex <= 0 || deleteIndex > i)
+        if (deleteIndex <= 0 || deleteIndex > i) {
             System.err.println("ERROR. Índice incorrecto.");
-        else {
+            return;
+        } else {
             try {
                 Director removeDirector = directors.get(deleteIndex-1);
                 if (removeDirector.getFilms().isEmpty()) {
                     controller.removeDirector(removeDirector);
                 } else {
                     System.err.println("ERROR. El director tiene películas asociadas.");
+                    return;
                 }
             } catch (IndexOutOfBoundsException exp) {
                 System.err.println("ERROR. Índice incorrecto.");
+                return;
             }
         }
     }
@@ -484,9 +487,10 @@ public class View {
         }
 
         int index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
-        if (index <= 0 || index > i)
+        if (index <= 0 || index > i) {
             System.err.println("ERROR. Índice incorrecto.");
-        else {
+            return;
+        } else {
             try {
             /*
                 private Date birthdate;
@@ -620,9 +624,9 @@ public class View {
         }
 
         int deleteIndex = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al actor a borrar: ", scanner);
-        if (deleteIndex <= 0 || deleteIndex > i)
+        if (deleteIndex <= 0 || deleteIndex > i) {
             System.err.println("ERROR. Índice incorrecto.");
-        else {
+        } else {
             try {
                 Actor removeActor = actors.get(deleteIndex-1);
                 if (removeActor.getFilms().isEmpty()) {
@@ -647,9 +651,10 @@ public class View {
         }
 
         int index = CMUtils.askForInteger("Introduzca el número (entre corchetes) que corresponde al director a modificar: ", scanner);
-        if (index <= 0 || index > i)
+        if (index <= 0 || index > i) {
             System.err.println("ERROR. Índice incorrecto.");
-        else {
+            return;
+        } else {
             try {
             /*
                 private Date birthdate;
@@ -712,13 +717,15 @@ public class View {
             }
 
             int index = CMUtils.askForInteger("Introduzca el número del actor sobre el que desea mostrar: ", scanner);
-            if (index <= 0 || index > i)
+            if (index <= 0 || index > i) {
                 System.err.println("ERROR. Índice incorrecto.");
-            else {
+                return;
+            } else {
                 try {
                     selectedActor = actors.get(index - 1);
                 } catch (IndexOutOfBoundsException exp) {
                     System.err.println("ERROR. Índice incorrecto.");
+                    return;
                 }
             }
         } else {
