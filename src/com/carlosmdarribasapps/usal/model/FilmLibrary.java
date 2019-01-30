@@ -1,3 +1,10 @@
+//
+//  FilmLibrary.java
+//  FilmOT18
+//
+//  Created by Carlos Martin de Arribas on 27/12/18
+//
+
 package com.carlosmdarribasapps.usal.model;
 
 import java.util.ArrayList;
@@ -16,6 +23,11 @@ public class FilmLibrary {
         this.actors = actors;
     }
 
+    /**
+     * Add film to the current list.
+     * addFilm(Film film)
+     * @param film
+     */
     public void addFilm(Film film) {
         if (this.films == null || this.films.isEmpty())
             this.films = new ArrayList<Film>();
@@ -23,6 +35,11 @@ public class FilmLibrary {
         this.films.add(film);
     }
 
+    /**
+     * add Director to the current list.
+     * addDirector(Director director)
+     * @param director
+     */
     public void addDirector(Director director) {
         if (this.directors == null || this.directors.isEmpty())
             this.directors = new ArrayList<Director>();
@@ -30,6 +47,11 @@ public class FilmLibrary {
         this.directors.add(director);
     }
 
+    /**
+     * add Actor to the current list.
+     * addActor(Actor actor)
+     * @param director
+     */
     public void addActor(Actor actor) {
         if (this.actors == null || this.actors.isEmpty())
             this.actors = new ArrayList<Actor>();
@@ -37,26 +59,42 @@ public class FilmLibrary {
         this.actors.add(actor);
     }
 
+    /**
+     * remove film from list.
+     * @param film
+     */
     public void removeFilm(Film film) {
         if (this.films == null || this.films.isEmpty()) return;
 
         this.films.remove(film);
     }
 
+    /**
+     * remove director from list
+     * @param director
+     */
     public void removeDirector(Director director) {
         if (this.directors == null || this.directors.isEmpty()) return;
 
         this.directors.remove(director);
     }
 
+    /**
+     * remove actor from list
+     * @param actor
+     */
     public void removeActor(Actor actor) {
         if (this.actors == null || this.actors.isEmpty()) return;
 
         this.actors.remove(actor);
     }
 
-
     // Exportamos en columnas.
+
+    /**
+     * return columned directors
+     * @return
+     */
     public List<String> getDirectorsInColumns() {
         if (this.directors == null ||this.directors.isEmpty())
             return null;
@@ -68,6 +106,10 @@ public class FilmLibrary {
         return columnedDirectors;
     }
 
+    /**
+     * Creates HTML and return it as List<String>
+     * @return
+     */
     public List<String> getFilmsInHTML() {
         if(null == this.films || this.films.isEmpty())
             return null;
@@ -79,6 +121,7 @@ public class FilmLibrary {
         return columnedFilms;
     }
 
+    // Getters / Setters
     public List<Film> getFilms() {
         return films;
     }

@@ -1,3 +1,10 @@
+//
+//  CMUtils.java
+//  FilmOT18
+//
+//  Created by Carlos Martin de Arribas on 27/12/18
+//
+
 package com.carlosmdarribasapps.usal.utils;
 
 import java.io.IOException;
@@ -9,6 +16,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CMUtils {
+    /**
+     * Converts String date given to to Date
+     * @param dateString
+     * @param format
+     * @return Date converted.
+     */
     public static Date stringToDate(String dateString, String format) {
 
         try {
@@ -21,6 +34,11 @@ public class CMUtils {
         }
     }
 
+    /**
+     * Check if String is convertible to Int
+     * @param input to be checked
+     * @return true if it is convertible. False if not.
+     */
     public static boolean isStringParsableToInt(String input){
         try {
             Integer.valueOf(input);
@@ -30,6 +48,12 @@ public class CMUtils {
         }
     }
 
+    /**
+     * Ask user to integer, and check if it is correct before continue.
+     * @param message to be shown to user.
+     * @param scanner
+     * @return number inputted.
+     */
     public static int askForInteger(String message, Scanner scanner) {
         boolean exit;
 

@@ -1,3 +1,10 @@
+//
+//  Main.java
+//  FilmOT18
+//
+//  Created by Carlos Martin de Arribas on 27/12/18
+//
+
 package com.carlosmdarribasapps.usal.peliculasdb;
 
 import com.carlosmdarribasapps.usal.view.View;

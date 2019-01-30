@@ -1,3 +1,10 @@
+//
+//  Director.java
+//  FilmOT18
+//
+//  Created by Carlos Martin de Arribas on 27/12/18
+//
+
 package com.carlosmdarribasapps.usal.model;
 
 import com.carlosmdarribasapps.usal.utils.Constants;
@@ -29,6 +36,10 @@ public class Director implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Converts Director to columned formatted way.
+     * @return String which contains it converted.
+     */
     public String toFormattedString() {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 

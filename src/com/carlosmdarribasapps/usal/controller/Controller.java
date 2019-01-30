@@ -1,3 +1,10 @@
+//
+//  Controller.java
+//  FilmOT18
+//
+//  Created by Carlos Martin de Arribas on 27/12/18
+//
+
 package com.carlosmdarribasapps.usal.controller;
 
 import com.carlosmdarribasapps.usal.model.Actor;
@@ -49,7 +56,9 @@ public class Controller {
                     String[] directionString = currentLine[4].split("\t");
                     List<String> directorArray = new ArrayList<>(Arrays.asList(directionString));
 
+
                     String[] cast = currentLine[8].split("\t");
+
 
                     List<String> castArray = new ArrayList<>();
                     for (String actorName : cast) {

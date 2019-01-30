@@ -1,3 +1,10 @@
+//
+//  Film.java
+//  FilmOT18
+//
+//  Created by Carlos Martin de Arribas on 27/12/18
+//
+
 package com.carlosmdarribasapps.usal.model;
 
 /*
@@ -7,6 +14,7 @@ package com.carlosmdarribasapps.usal.model;
 
 import java.io.Serializable;
 import java.util.List;
+import com.carlosmdarribasapps.usal.utils.Constants;
 
 public class Film implements Serializable {
     private String name;
@@ -45,8 +53,12 @@ public class Film implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Converts Film to HTML String, using format shown. TODO: Move to Constants file.
+     * @return
+     */
     public String toHtmlString() {
-        return String.format("<TR><TD>%s</TD><TD>%d</TD><TD>%d</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD><TD>%s</TD></TR>",
+        return String.format(Constants.HTML_ROW_FORMAT,
                 this.name = name,
                 this.year,
                 this.duration,
